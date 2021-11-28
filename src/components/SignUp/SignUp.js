@@ -9,17 +9,45 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 
 const theme = createTheme();
 
 export default function SignUp() {
+  const [user, setUser] = React.useState('patient');
+  const [fname, setFname] = React.useState('');
+  const [lname, setLname] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
+  const handleUserType = (event) => {
+    setUser(event.target.value);
+  };
+  const handleFname = (event) => {
+    setFname(event.target.value);
+  };
+  const handleLname = (event) => {
+    setLname(event.target.value);
+  };
+  const handleEmail = (event) => {
+    setEmail(event.target.value);
+  };
+  const handlePassword = (event) => {
+    setPassword(event.target.value);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
     console.log({
+      user: data.get("user-type"),
+      firstName: data.get("firstName"),
+      lastName: data.get("lastName"),
       email: data.get("email"),
-      password: data.get("password")
+      password: data.get("password"),
     });
   };
 
@@ -50,6 +78,22 @@ export default function SignUp() {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <InputLabel id="demo-simple-select-label">User Type</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="User Type"
+                  value={user}
+                  name="user-type"
+                  onChange={handleUserType}
+                >
+                  <MenuItem value={"patient"} selected>Patient</MenuItem>
+                  <MenuItem value={"staff"}>Reception Staff</MenuItem>
+                  <MenuItem value={"doctor"}>Doctor</MenuItem>
+                  <MenuItem value={"admin"}>Admin</MenuItem>
+                </Select>
+              </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
@@ -58,7 +102,9 @@ export default function SignUp() {
                   fullWidth
                   id="firstName"
                   label="First Name"
+                  value={fname}
                   autoFocus
+                  onChange={handleFname}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -68,7 +114,9 @@ export default function SignUp() {
                   id="lastName"
                   label="Last Name"
                   name="lastName"
+                  value={lname}
                   autoComplete="family-name"
+                  onChange={handleLname}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -78,19 +126,23 @@ export default function SignUp() {
                   id="email"
                   label="Email Address"
                   name="email"
+                  value={email}
                   autoComplete="email"
                   type="email"
+                  onChange={handleEmail}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
+                  value={password}
                   name="password"
                   label="Password"
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  onChange={handlePassword}
                 />
               </Grid>
             </Grid>

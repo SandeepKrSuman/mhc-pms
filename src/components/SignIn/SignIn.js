@@ -9,11 +9,28 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 
 
 const theme = createTheme();
 
 export default function SignIn() {
+  const [user, setUser] = React.useState('patient');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
+  const handleUserType = (event) => {
+    setUser(event.target.value);
+  };
+  const handleEmail = (event) => {
+    setEmail(event.target.value);
+  };
+  const handlePassword = (event) => {
+    setPassword(event.target.value);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -21,6 +38,7 @@ export default function SignIn() {
     console.log({
       email: data.get('email'),
       password: data.get('password'),
+      user: data.get('user-type'),
     });
   };
 
@@ -45,6 +63,20 @@ export default function SignIn() {
             Sign in
           </Typography>
           <Box component="form" onSubmit={handleSubmit} validate sx={{ mt: 1 }}>
+            <InputLabel id="demo-simple-select-label">User Type</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="User Type"
+              value={user}
+              name="user-type"
+              onChange={handleUserType}
+            >
+              <MenuItem value={"patient"} selected>Patient</MenuItem>
+              <MenuItem value={"staff"}>Reception Staff</MenuItem>
+              <MenuItem value={"doctor"}>Doctor</MenuItem>
+              <MenuItem value={"admin"}>Admin</MenuItem>
+            </Select>
             <TextField
               margin="normal"
               required
@@ -53,8 +85,10 @@ export default function SignIn() {
               type="email"
               label="Email Address"
               name="email"
+              value={email}
               autoComplete="email"
               autoFocus
+              onChange={handleEmail}
             />
             <TextField
               margin="normal"
@@ -64,6 +98,8 @@ export default function SignIn() {
               label="Password"
               type="password"
               id="password"
+              value={password}
+              onChange={handlePassword}
               autoComplete="current-password"
             />
             <Button
