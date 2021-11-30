@@ -1,0 +1,82 @@
+@import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+.outer-shell {
+  height: 100vh;
+  padding: 5%;
+  overflow: hidden;
+}
+
+.inner-shell {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  text-align: center;
+}
+
+.inner-1 {
+  padding-top: 30vh;
+}
+
+span {
+  font-size: 2rem;
+  font-family: "Libre Baskerville", serif;
+}
+
+.p1 {
+  color: #1785f8;
+}
+.p2 {
+  color: #fb4a59;
+}
+.p3 {
+  color: #87d147;
+}
+
+.separator {
+  margin-left: 12px;
+  margin-right: 12px;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.outer-shell:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+@media screen and (max-width: 750px) {
+  .outer-shell {
+    padding: 0;
+  }
+  .inner-2 {
+    display: none;
+  }
+  .inner-1 {
+    width: 100vw;
+    height: 100vh;
+    padding-top: 35vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+      url("./brain.png");
+    background-position: center;
+    background-color: #090910;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .typ {
+    color: #fff;
+  }
+}
