@@ -3,7 +3,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
+import {Link as UiLink} from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -12,6 +12,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import {Link} from "react-router-dom";
 
 
 const theme = createTheme();
@@ -114,8 +115,10 @@ export default function SignIn() {
               <Grid item xs>
               </Grid>
               <Grid item>
-                <Link href="" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                <Link to="/signup">
+                  <UiLink variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </UiLink>
                 </Link>
               </Grid>
             </Grid>

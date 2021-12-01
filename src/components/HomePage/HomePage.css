@@ -47,6 +47,12 @@ span {
   margin-right: 12px;
 }
 
+.link-btn,
+.link-btn:hover {
+  text-decoration: none;
+  outline: none;
+}
+
 img {
   max-width: 100%;
   max-height: 100%;
