@@ -3,7 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import {Link as UiLink} from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -13,11 +12,17 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import {Link} from "react-router-dom";
+import './SignIn.css';
 
 
 const theme = createTheme();
 
 export default function SignIn() {
+
+  React.useEffect(() => {
+    window.scrollTo(0, 0)
+  }, []);
+
   const [user, setUser] = React.useState('patient');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -115,10 +120,8 @@ export default function SignIn() {
               <Grid item xs>
               </Grid>
               <Grid item>
-                <Link to="/signup">
-                  <UiLink variant="body2">
+                <Link className="link-btn-login" to="/signup">
                     {"Don't have an account? Sign Up"}
-                  </UiLink>
                 </Link>
               </Grid>
             </Grid>
