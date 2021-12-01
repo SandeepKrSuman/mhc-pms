@@ -4,6 +4,17 @@
   box-sizing: border-box;
 }
 
+::-moz-selection {
+  /* Code for Firefox */
+  color: #000;
+  background: #ff9999;
+}
+
+::selection {
+  color: #000;
+  background: #ff9999;
+}
+
 html,
 body {
   margin: 0;
