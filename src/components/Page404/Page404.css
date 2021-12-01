@@ -1,0 +1,21 @@
+.main-container {
+  height: 100vh;
+  padding: 5%;
+  padding-top: 30vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+    url("./bg404.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+}
+
+.typ404 {
+  color: #fff;
+}
+
+.goback-btn-link,
+.goback-btn-link:hover {
+  text-decoration: none;
+  outline: none;
+}

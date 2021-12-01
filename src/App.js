@@ -7,6 +7,7 @@ import {
 import HomePage from "./components/HomePage/HomePage";
 import SignIn from "./components/SignIn/SignIn";
 import SignUp from "./components/SignUp/SignUp";
+import Page404 from "./components/Page404/Page404";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" exact element = {<HomePage />} />
           <Route path="/signin" exact element = {<SignIn />} />
           <Route path="/signup" exact element = {<SignUp />} />
+          <Route path="*" element = {<Page404 />} />
         </Routes>
       </Router>
     );
