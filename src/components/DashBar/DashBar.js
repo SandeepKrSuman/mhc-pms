@@ -20,7 +20,7 @@ export default function DashBar(props) {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {props.user}
+            {`Hi, ${props.user}`}
           </Typography>
           <Tooltip title="Log Out">
               <IconButton onClick={handleLogOut}  sx={{ p: 0 }}>
