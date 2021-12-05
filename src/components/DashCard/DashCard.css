@@ -1,0 +1,12 @@
+.card-bg {
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.card-bg:hover {
+  background-color: #eeeeee;
+  -ms-transform: scale(1.05);
+  -webkit-transform: scale(1.05);
+  transform: scale(1.05);
+}
