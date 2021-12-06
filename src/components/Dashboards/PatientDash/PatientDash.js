@@ -1,6 +1,6 @@
 import Dashboard from "../Dashboard";
 
-const cardTitles = ["Clinics", "My Appointments", "Book Appointment", "Make Payment", "Prescriptions", "Feedback"];
+const cardTitles = ["View Location", "My Appointments", "Book Appointment", "Make Payment", "Prescriptions", "Feedback"];
 
 function PatientDash(){
     return (
