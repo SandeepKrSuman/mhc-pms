@@ -1,8 +1,11 @@
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import CardActions from '@mui/material/CardActions';
+import Button from '@mui/material/Button';
+import AddTaskIcon from '@mui/icons-material/AddTask';
 
-export default function ClinicCard(props) {
+export default function BookingCard(props) {
 
   return (
     <Card sx={{ maxWidth: "100%", textAlign: "center"}} variant="outlined">
@@ -15,6 +18,9 @@ export default function ClinicCard(props) {
             {props.subheading}
         </Typography>
         <br />
+        <CardActions disableSpacing>
+          <Button variant="contained" color="warning" endIcon={<AddTaskIcon />}>BOOK</Button>
+        </CardActions>
       </CardContent>
     </Card>
   );
