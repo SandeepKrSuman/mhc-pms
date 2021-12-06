@@ -11,7 +11,7 @@ export default function DashCard(props) {
   function handleClick(cardTitle) {
     let tab = cardTitle.toLowerCase();
     const tabName = tab.split(" ").join("-");
-    navigate(`/dashboard/patient/tabs/${tabName}`);
+    navigate(`/dashboard/tabs/${tabName}`);
   }
 
   return (
