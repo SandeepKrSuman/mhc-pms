@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import Container from "@mui/material/Container";
 import DashBar from "../../../DashBar/DashBar";
-import AppointmentCard from "../../../AppointmentCard/AppointmentCard";
+import AppointmentCard from "../../../Cards/AppointmentCard";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 

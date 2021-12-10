@@ -1,7 +1,7 @@
 import { useState, useEffect, Fragment } from "react";
 import Container from "@mui/material/Container";
 import DashBar from "../../../DashBar/DashBar";
-import BookingCard from "../../../BookingCard/BookingCard";
+import BookingCard from "../../../Cards/BookingCard";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
