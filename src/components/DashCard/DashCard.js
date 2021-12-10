@@ -1,16 +1,17 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./DashCard.css";
 
 export default function DashCard(props) {
   let navigate = useNavigate();
+  const { pathname } = useLocation();
 
   function handleClick(cardTitle) {
     let tab = cardTitle.toLowerCase();
     const tabName = tab.split(" ").join("-");
-    navigate(`/dashboard/${props.userType}/${tabName}`);
+    navigate(`${pathname}/${tabName}`);
   }
 
   return (
