@@ -6,10 +6,12 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 
 const appointments = [
-  { patient: "Bakshi", date: "12/08/2021" },
-  { patient: "Dey", date: "12/10/2021" },
-  { patient: "Santra", date: "12/20/2021" },
+  { patient: "Bakshi", date: "12/08/2021", uniqueId: 12345 },
+  { patient: "Dey", date: "12/10/2021", uniqueId: 12346 },
+  { patient: "Santra", date: "12/20/2021", uniqueId: 12347 },
 ];
+
+// filter out on the basis of unique id
 
 function UploadPrescription() {
   if (appointments.length > 0) {

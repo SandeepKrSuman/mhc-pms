@@ -1,8 +1,7 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import Fab from "@mui/material/Fab";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import FileUploader from "../FileUploader/FileUploader";
 
 export default function UploadPrescriptionCard(props) {
   return (
@@ -16,9 +15,7 @@ export default function UploadPrescriptionCard(props) {
           {props.patient}
         </Typography>
         <br /> <br />
-        <Fab color="primary" variant="extended">
-          <CloudUploadIcon /> {"Upload"}
-        </Fab>
+        <FileUploader />
       </CardContent>
     </Card>
   );
