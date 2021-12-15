@@ -26,6 +26,7 @@ import AdminDash from "./components/Dashboards/AdminDash/AdminDash";
 import DocList from "./components/Dashboards/AdminDash/Tabs/DocList";
 import AddNew from "./components/Dashboards/AdminDash/Tabs/AddNew";
 import GenerateStats from "./components/Dashboards/AdminDash/Tabs/GenerateStats";
+import VerifySignUp from "./components/Dashboards/AdminDash/Tabs/VerifySignUp";
 
 function App() {
   return (
@@ -122,6 +123,10 @@ function App() {
         <Route
           path="/dashboard/admin/generate-stats"
           element={<GenerateStats />}
+        />
+        <Route
+          path="/dashboard/admin/verify-signup"
+          element={<VerifySignUp />}
         />
         <Route path="*" element={<Page404 />} />
       </Routes>
