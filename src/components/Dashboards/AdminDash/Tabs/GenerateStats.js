@@ -9,6 +9,7 @@ function GenerateStats() {
   const stars = 5;
   const nop = 100;
   const dmwd = "Dr. Raman Raghav";
+  const nos = 5;
 
   return (
     <Fragment>
@@ -25,10 +26,16 @@ function GenerateStats() {
           <Grid item xs={12} md={6} lg={6}>
             <StatsCard heading={nop} subheading="Patients visited so far" />
           </Grid>
-          <Grid item xs={12} md={12} lg={12}>
+          <Grid item xs={12} md={6} lg={6}>
             <StatsCard
               heading={dmwd}
               subheading="with most number of working days"
+            />
+          </Grid>
+          <Grid item xs={12} md={6} lg={6}>
+            <StatsCard
+              heading={nos}
+              subheading="Number of verified reception staffs"
             />
           </Grid>
         </Grid>
