@@ -11,7 +11,11 @@ export default function DashCard(props) {
   function handleClick(cardTitle) {
     let tab = cardTitle.toLowerCase();
     const tabName = tab.split(" ").join("-");
-    navigate(`${pathname}/${tabName}`);
+    if (pathname.charAt(pathname.length - 1) === "/") {
+      navigate(`${pathname}${tabName}`);
+    } else {
+      navigate(`${pathname}/${tabName}`);
+    }
   }
 
   return (
