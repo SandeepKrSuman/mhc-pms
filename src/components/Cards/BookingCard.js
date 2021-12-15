@@ -15,6 +15,9 @@ export default function BookingCard(props) {
           {props.heading}
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          {props.degree}
+        </Typography>
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
           {props.subheading}
         </Typography>
         <Typography variant="subtitle1" sx={{ mb: 1.5 }} color="text.secondary">

@@ -60,6 +60,7 @@ function AddNew() {
                   id="fullname"
                   name="fullname"
                   placeholder="Doctor's full name..."
+                  autocomplete="off"
                 />
               </div>
             </div>
@@ -88,6 +89,21 @@ function AddNew() {
             </div>
             <div className="rrow">
               <div className="col-25">
+                <label htmlFor="degree">Degree</label>
+              </div>
+              <div className="col-75">
+                <input
+                  className="inpt"
+                  type="text"
+                  id="degree"
+                  name="degree"
+                  placeholder="Doctor's degree"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+            <div className="rrow">
+              <div className="col-25">
                 <label htmlFor="fee">Fee</label>
               </div>
               <div className="col-75">
@@ -97,6 +113,7 @@ function AddNew() {
                   id="fee"
                   name="fee"
                   placeholder="Appointment fee..."
+                  autocomplete="off"
                 />
               </div>
             </div>
