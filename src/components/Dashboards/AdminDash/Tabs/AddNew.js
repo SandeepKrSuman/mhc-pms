@@ -3,6 +3,7 @@ import Container from "@mui/material/Container";
 import DashBar from "../../../DashBar/DashBar";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import Typography from "@mui/material/Typography";
 import "./AddNew.css";
 
 const Alert = forwardRef(function Alert(props, ref) {
@@ -43,6 +44,9 @@ function AddNew() {
         className="dash-container"
         maxWidth="lg"
       >
+        <Typography variant="h5" gutterBottom component="div">
+          Add to the Doctors' list:
+        </Typography>
         <div className="container">
           <form onSubmit={handleSubmit}>
             <div className="rrow">
