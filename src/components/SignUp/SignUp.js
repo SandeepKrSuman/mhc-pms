@@ -1,4 +1,4 @@
-import * as React from "react";
+import { forwardRef, useState, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,21 +11,50 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 import { Link } from "react-router-dom";
 import "./SignUp.css";
+import axios from "axios";
 
 const theme = createTheme();
 
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 export default function SignUp() {
-  React.useEffect(() => {
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const [user, setUser] = React.useState("patient");
-  const [fname, setFname] = React.useState("");
-  const [lname, setLname] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [user, setUser] = useState("patient");
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [succOpen, setSuccOpen] = useState(false);
+  const [errOpen, setErrOpen] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(
+    "An Error Occured. Try again later."
+  );
+
+  const handleSuccessClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSuccOpen(false);
+  };
+
+  const handleErrorClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setErrOpen(false);
+  };
 
   const handleUserType = (event) => {
     setUser(event.target.value);
@@ -45,27 +74,32 @@ export default function SignUp() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
 
-    if (data.get("user-type") === "patient") {
-      console.log({
-        user: data.get("user-type"),
-        firstName: data.get("firstName"),
-        lastName: data.get("lastName"),
-        email: data.get("email"),
-        password: data.get("password"),
+    const verified = user === "patient" ? true : false;
+
+    const postData = {
+      userType: user,
+      fname: fname,
+      lname: lname,
+      email: email,
+      password: password,
+      verified: verified,
+    };
+
+    axios
+      .post("http://localhost:5000/auth/signup", postData)
+      .then((res) => {
+        if (res.data.error) {
+          setErrorMsg(res.data.errorMsg);
+          setErrOpen(true);
+        } else {
+          setSuccOpen(true);
+        }
+      })
+      .catch((err) => {
+        setErrOpen(true);
+        console.error(err);
       });
-    } else {
-      console.log({
-        user: data.get("user-type"),
-        firstName: data.get("firstName"),
-        lastName: data.get("lastName"),
-        email: data.get("email"),
-        password: data.get("password"),
-        verified: false,
-      });
-    }
 
     setUser("patient");
     setFname("");
@@ -183,6 +217,36 @@ export default function SignUp() {
           </Box>
         </Box>
       </Container>
+      <Snackbar
+        key={"success"}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={succOpen}
+        autoHideDuration={6000}
+        onClose={handleSuccessClose}
+      >
+        <Alert
+          onClose={handleSuccessClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Registration Successful. Go ahead and login...
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        key={"error"}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={errOpen}
+        autoHideDuration={6000}
+        onClose={handleErrorClose}
+      >
+        <Alert
+          onClose={handleErrorClose}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          {errorMsg}
+        </Alert>
+      </Snackbar>
     </ThemeProvider>
   );
 }
