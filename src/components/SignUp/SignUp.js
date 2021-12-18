@@ -13,7 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import { Link } from "react-router-dom";
+import { Link, createSearchParams, useNavigate } from "react-router-dom";
 import "./SignUp.css";
 import axios from "axios";
 
@@ -24,6 +24,8 @@ const Alert = forwardRef(function Alert(props, ref) {
 });
 
 export default function SignUp() {
+  let navigate = useNavigate();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -34,19 +36,10 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [succOpen, setSuccOpen] = useState(false);
   const [errOpen, setErrOpen] = useState(false);
   const [errorMsg, setErrorMsg] = useState(
     "An Error Occured. Try again later."
   );
-
-  const handleSuccessClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setSuccOpen(false);
-  };
 
   const handleErrorClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -93,7 +86,10 @@ export default function SignUp() {
           setErrorMsg(res.data.errorMsg);
           setErrOpen(true);
         } else {
-          setSuccOpen(true);
+          navigate({
+            pathname: "/signin",
+            search: `?${createSearchParams({ new: true })}`,
+          });
         }
       })
       .catch((err) => {
@@ -217,21 +213,6 @@ export default function SignUp() {
           </Box>
         </Box>
       </Container>
-      <Snackbar
-        key={"success"}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={succOpen}
-        autoHideDuration={6000}
-        onClose={handleSuccessClose}
-      >
-        <Alert
-          onClose={handleSuccessClose}
-          severity="success"
-          sx={{ width: "100%" }}
-        >
-          Registration Successful. Go ahead and login...
-        </Alert>
-      </Snackbar>
       <Snackbar
         key={"error"}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
