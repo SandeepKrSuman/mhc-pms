@@ -8,12 +8,44 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./SignIn.css";
 
 const theme = createTheme();
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 export default function SignIn() {
+  let navigate = useNavigate();
+
+  const [searchParams] = useSearchParams();
+  const sparam = searchParams.get("new");
+  const [succOpen, setSuccOpen] = React.useState(sparam ? true : false);
+  const [errOpen, setErrOpen] = React.useState(false);
+  const [errorMsg, setErrorMsg] = React.useState(
+    "An Error Occured. Try again later."
+  );
+
+  const handleErrorClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setErrOpen(false);
+  };
+
+  const handleSuccessClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSuccOpen(false);
+  };
+
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -30,13 +62,26 @@ export default function SignIn() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-      user: data.get("user-type"),
-    });
+    const postData = {
+      email: email,
+      password: password,
+    };
+
+    axios
+      .post("http://localhost:5000/auth/signin", postData)
+      .then((res) => {
+        if (res.data.error) {
+          setErrorMsg(res.data.errorMsg);
+          setErrOpen(true);
+        } else {
+          const loggedUser = res.data.userType;
+          navigate(`/dashboard/${loggedUser}`);
+        }
+      })
+      .catch((err) => {
+        setErrOpen(true);
+        console.error(err);
+      });
   };
 
   return (
@@ -105,6 +150,36 @@ export default function SignIn() {
           </Box>
         </Box>
       </Container>
+      <Snackbar
+        key={"success"}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={succOpen}
+        autoHideDuration={3000}
+        onClose={handleSuccessClose}
+      >
+        <Alert
+          onClose={handleSuccessClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Registration Successful. Go ahead and login...
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        key={"error"}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={errOpen}
+        autoHideDuration={6000}
+        onClose={handleErrorClose}
+      >
+        <Alert
+          onClose={handleErrorClose}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          {errorMsg}
+        </Alert>
+      </Snackbar>
     </ThemeProvider>
   );
 }
