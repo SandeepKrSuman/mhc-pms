@@ -1,4 +1,5 @@
 import { forwardRef, useState, useEffect } from "react";
+import api from "../../api";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -15,7 +16,6 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { Link, createSearchParams, useNavigate } from "react-router-dom";
 import "./SignUp.css";
-import axios from "axios";
 
 const theme = createTheme();
 
@@ -65,7 +65,7 @@ export default function SignUp() {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const verified = user === "patient" ? true : false;
@@ -79,29 +79,32 @@ export default function SignUp() {
       verified: verified,
     };
 
-    axios
-      .post("http://localhost:5000/auth/signup", postData)
-      .then((res) => {
-        if (res.data.error) {
-          setErrorMsg(res.data.errorMsg);
-          setErrOpen(true);
-        } else {
-          navigate({
-            pathname: "/signin",
-            search: `?${createSearchParams({ new: true })}`,
-          });
-        }
-      })
-      .catch((err) => {
+    try {
+      const res = await api.signup(postData);
+      if (res.data.error) {
+        setErrorMsg(res.data.errorMsg);
         setErrOpen(true);
-        console.error(err);
-      });
-
-    setUser("patient");
-    setFname("");
-    setLname("");
-    setEmail("");
-    setPassword("");
+        setUser("patient");
+        setFname("");
+        setLname("");
+        setEmail("");
+        setPassword("");
+      } else {
+        navigate({
+          pathname: "/signin",
+          search: `?${createSearchParams({ new: true })}`,
+        });
+      }
+    } catch (error) {
+      setErrorMsg(error.response.data.errorMsg);
+      setErrOpen(true);
+      setUser("patient");
+      setFname("");
+      setLname("");
+      setEmail("");
+      setPassword("");
+      console.error(error);
+    }
   };
 
   return (
