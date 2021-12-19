@@ -11,7 +11,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../api";
 import "./SignIn.css";
 
 const theme = createTheme();
@@ -60,28 +60,30 @@ export default function SignIn() {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const postData = {
       email: email,
       password: password,
     };
 
-    axios
-      .post("http://localhost:5000/auth/signin", postData)
-      .then((res) => {
-        if (res.data.error) {
-          setErrorMsg(res.data.errorMsg);
-          setErrOpen(true);
-        } else {
-          const loggedUser = res.data.userType;
-          navigate(`/dashboard/${loggedUser}`);
-        }
-      })
-      .catch((err) => {
+    try {
+      const res = await api.signin(postData);
+      if (res.data.error) {
+        setErrorMsg(res.data.errorMsg);
         setErrOpen(true);
-        console.error(err);
-      });
+      } else {
+        const loggedUser = res.data.userType;
+        const { accessToken, refreshToken } = res.data;
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        navigate(`/dashboard/${loggedUser}`);
+      }
+    } catch (error) {
+      setErrorMsg(error.response.data.errorMsg);
+      setErrOpen(true);
+      console.error(error);
+    }
   };
 
   return (
