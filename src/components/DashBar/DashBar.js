@@ -1,18 +1,34 @@
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Tooltip from '@mui/material/Tooltip';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-import LogoutIcon from '@mui/icons-material/Logout';
-import { red } from '@mui/material/colors';
-
+import jwt from "jsonwebtoken";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
+import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { red } from "@mui/material/colors";
+import { useNavigate } from "react-router-dom";
+import api from "../../api";
 
 export default function DashBar(props) {
+  const navigate = useNavigate();
 
-  function handleLogOut(){
-    console.log('logout');
+  const token = localStorage.getItem("accessToken");
+  const user = token ? jwt.decode(token) : null;
+  const userName = user ? user.name : null;
+
+  async function handleLogOut() {
+    try {
+      const refreshToken = localStorage.getItem("refreshToken");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      await api.logout({ data: { refreshToken } });
+      navigate("/signin");
+    } catch (error) {
+      console.error(error);
+      alert(error.response.data.error);
+    }
   }
 
   return (
@@ -20,14 +36,14 @@ export default function DashBar(props) {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {`Hi, ${props.user}`}
+            {`Hi, ${userName ? userName : ""}`}
           </Typography>
           <Tooltip title="Log Out">
-              <IconButton onClick={handleLogOut}  sx={{ p: 0 }}>
-                <Avatar sx={{ bgcolor: red[500] }}>
-                  <LogoutIcon />
-                </Avatar>
-              </IconButton>
+            <IconButton onClick={handleLogOut} sx={{ p: 0 }}>
+              <Avatar sx={{ bgcolor: red[500] }}>
+                <LogoutIcon />
+              </Avatar>
+            </IconButton>
           </Tooltip>
         </Toolbar>
       </AppBar>
