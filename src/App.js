@@ -1,5 +1,11 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import jwt from "jsonwebtoken";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import HomePage from "./components/HomePage/HomePage";
 import SignIn from "./components/SignIn/SignIn";
 import SignUp from "./components/SignUp/SignUp";
@@ -28,80 +34,182 @@ import AddNew from "./components/Dashboards/AdminDash/Tabs/AddNew";
 import GenerateStats from "./components/Dashboards/AdminDash/Tabs/GenerateStats";
 import VerifySignUp from "./components/Dashboards/AdminDash/Tabs/VerifySignUp";
 
+export const AuthContext = React.createContext();
+
 function App() {
+  const [userType, setUserType] = useState(null);
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    const payload = token && jwt.decode(token);
+    const userType = payload && payload.userType;
+    setUserType(userType && userType);
+  }, []);
+
   return (
     <Router>
       <Routes>
         <Route path="/" exact element={<HomePage />} />
-        <Route path="/signin" exact element={<SignIn />} />
-        <Route path="/signup" exact element={<SignUp />} />
-        <Route path="/dashboard/staff" excact element={<StaffDash />} />
-        <Route path="/dashboard/doctor" excact element={<DoctorDash />} />
+        <Route
+          path="/signin"
+          exact
+          element={
+            userType ? <Navigate to={`/dashboard/${userType}`} /> : <SignIn />
+          }
+        />
+        <Route
+          path="/signup"
+          exact
+          element={
+            userType ? <Navigate to={`/dashboard/${userType}`} /> : <SignUp />
+          }
+        />
+        <Route
+          path="/dashboard/staff"
+          exact
+          element={
+            <AuthContext.Provider value={{ setUserType }}>
+              <StaffDash />
+            </AuthContext.Provider>
+          }
+        />
+        <Route
+          path="/dashboard/doctor"
+          exact
+          element={
+            <AuthContext.Provider value={{ setUserType }}>
+              <DoctorDash />
+            </AuthContext.Provider>
+          }
+        />
         <Route
           path="/dashboard/doctor/appointments"
           exact
-          element={<Appointments />}
+          element={
+            <AuthContext.Provider value={{ setUserType }}>
+              <Appointments />
+            </AuthContext.Provider>
+          }
         />
         <Route
           path="/dashboard/doctor/upload-prescription"
           exact
-          element={<UploadPrescription />}
+          element={
+            <AuthContext.Provider value={{ setUserType }}>
+              <UploadPrescription />
+            </AuthContext.Provider>
+          }
         />
-        <Route path="/dashboard/admin" excact element={<AdminDash />} />
-        <Route path="/dashboard/patient" excact element={<PatientDash />} />
+        <Route
+          path="/dashboard/admin"
+          exact
+          element={
+            <AuthContext.Provider value={{ setUserType }}>
+              <AdminDash />
+            </AuthContext.Provider>
+          }
+        />
+        <Route
+          path="/dashboard/patient"
+          exact
+          element={
+            <AuthContext.Provider value={{ setUserType }}>
+              <PatientDash />
+            </AuthContext.Provider>
+          }
+        />
         <Route
           path="/dashboard/patient/view-location"
-          excact
+          exact
           element={<ViewLocation />}
         />
         <Route
           path="/dashboard/patient/my-appointments"
-          excact
-          element={<MyAppointments />}
+          exact
+          element={
+            <AuthContext.Provider value={{ setUserType }}>
+              <MyAppointments />
+            </AuthContext.Provider>
+          }
         />
         <Route
           path="/dashboard/patient/book-appointment"
-          excact
-          element={<BookAppointment />}
+          exact
+          element={
+            <AuthContext.Provider value={{ setUserType }}>
+              <BookAppointment />
+            </AuthContext.Provider>
+          }
         />
         <Route
           path="/dashboard/patient/make-payment"
-          excact
-          element={<MakePaymentPatinet />}
+          exact
+          element={
+            <AuthContext.Provider value={{ setUserType }}>
+              <MakePaymentPatinet />
+            </AuthContext.Provider>
+          }
         />
         <Route
           path="/dashboard/patient/make-payment/card-payment"
-          excact
-          element={<CardPaymentPatient />}
+          exact
+          element={
+            <AuthContext.Provider value={{ setUserType }}>
+              <CardPaymentPatient />
+            </AuthContext.Provider>
+          }
         />
         <Route
           path="/dashboard/patient/make-payment/upi-payment"
-          excact
-          element={<UpiPaymentPatient />}
+          exact
+          element={
+            <AuthContext.Provider value={{ setUserType }}>
+              <UpiPaymentPatient />
+            </AuthContext.Provider>
+          }
         />
         <Route
           path="/dashboard/patient/prescriptions"
-          excact
-          element={<Prescriptions />}
+          exact
+          element={
+            <AuthContext.Provider value={{ setUserType }}>
+              <Prescriptions />
+            </AuthContext.Provider>
+          }
         />
         <Route
           path="/dashboard/patient/feedback"
-          excact
-          element={<Feedback />}
+          exact
+          element={
+            <AuthContext.Provider value={{ setUserType }}>
+              <Feedback />
+            </AuthContext.Provider>
+          }
         />
         <Route
           path="/dashboard/staff/book-appointment"
-          excact
-          element={<BookAppointment />}
+          exact
+          element={
+            <AuthContext.Provider value={{ setUserType }}>
+              <BookAppointment />
+            </AuthContext.Provider>
+          }
         />
         <Route
           path="/dashboard/staff/cancel-appointment"
-          element={<CancelAppointment />}
+          element={
+            <AuthContext.Provider value={{ setUserType }}>
+              <CancelAppointment />
+            </AuthContext.Provider>
+          }
         />
         <Route
           path="/dashboard/staff/make-payment"
-          excact
-          element={<MakePaymentStaff />}
+          exact
+          element={
+            <AuthContext.Provider value={{ setUserType }}>
+              <MakePaymentStaff />
+            </AuthContext.Provider>
+          }
         />
         <Route
           path="/dashboard/staff/make-payment/card-payment"
@@ -115,18 +223,37 @@ function App() {
           path="/dashboard/staff/make-payment/cash-payment"
           element={<CashPayment />}
         />
-        <Route path="/dashboard/admin/doctors'-list" element={<DocList />} />
+        <Route
+          path="/dashboard/admin/doctors'-list"
+          element={
+            <AuthContext.Provider value={{ setUserType }}>
+              <DocList />
+            </AuthContext.Provider>
+          }
+        />
         <Route
           path="/dashboard/admin/doctors'-list/add-new"
-          element={<AddNew />}
+          element={
+            <AuthContext.Provider value={{ setUserType }}>
+              <AddNew />
+            </AuthContext.Provider>
+          }
         />
         <Route
           path="/dashboard/admin/generate-stats"
-          element={<GenerateStats />}
+          element={
+            <AuthContext.Provider value={{ setUserType }}>
+              <GenerateStats />
+            </AuthContext.Provider>
+          }
         />
         <Route
           path="/dashboard/admin/verify-signup"
-          element={<VerifySignUp />}
+          element={
+            <AuthContext.Provider value={{ setUserType }}>
+              <VerifySignUp />
+            </AuthContext.Provider>
+          }
         />
         <Route path="*" element={<Page404 />} />
       </Routes>
