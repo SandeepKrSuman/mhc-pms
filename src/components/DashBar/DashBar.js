@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { AuthContext } from "../../App";
 import jwt from "jsonwebtoken";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -11,7 +13,8 @@ import { red } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 import api from "../../api";
 
-export default function DashBar(props) {
+export default function DashBar() {
+  const auth = useContext(AuthContext);
   const navigate = useNavigate();
 
   const token = localStorage.getItem("accessToken");
@@ -24,7 +27,8 @@ export default function DashBar(props) {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       await api.logout({ data: { refreshToken } });
-      navigate("/signin");
+      auth.setUserType(null);
+      navigate("/");
     } catch (error) {
       console.error(error);
       alert(error.response.data.error);
