@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import jwt from "jsonwebtoken";
 import {
   BrowserRouter as Router,
@@ -41,8 +41,8 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     const payload = token && jwt.decode(token);
-    const userType = payload && payload.userType;
-    setUserType(userType && userType);
+    const userTyp = payload && payload.userType;
+    setUserType(userTyp && userTyp);
   }, []);
 
   return (
@@ -53,7 +53,13 @@ function App() {
           path="/signin"
           exact
           element={
-            userType ? <Navigate to={`/dashboard/${userType}`} /> : <SignIn />
+            userType ? (
+              <Navigate to={`/dashboard/${userType}`} />
+            ) : (
+              <AuthContext.Provider value={{ setUserType }}>
+                <SignIn />
+              </AuthContext.Provider>
+            )
           }
         />
         <Route
@@ -63,199 +69,227 @@ function App() {
             userType ? <Navigate to={`/dashboard/${userType}`} /> : <SignUp />
           }
         />
+        {/*----------> Admin Routes <------------- */}
+        {userType === "admin" && (
+          <Fragment>
+            <Route
+              path="/dashboard/admin"
+              exact
+              element={
+                <AuthContext.Provider value={{ setUserType }}>
+                  <AdminDash />
+                </AuthContext.Provider>
+              }
+            />
+            <Route
+              path="/dashboard/admin/doctors'-list"
+              element={
+                <AuthContext.Provider value={{ setUserType }}>
+                  <DocList />
+                </AuthContext.Provider>
+              }
+            />
+            <Route
+              path="/dashboard/admin/doctors'-list/add-new"
+              element={
+                <AuthContext.Provider value={{ setUserType }}>
+                  <AddNew />
+                </AuthContext.Provider>
+              }
+            />
+            <Route
+              path="/dashboard/admin/generate-stats"
+              element={
+                <AuthContext.Provider value={{ setUserType }}>
+                  <GenerateStats />
+                </AuthContext.Provider>
+              }
+            />
+            <Route
+              path="/dashboard/admin/verify-signup"
+              element={
+                <AuthContext.Provider value={{ setUserType }}>
+                  <VerifySignUp />
+                </AuthContext.Provider>
+              }
+            />
+          </Fragment>
+        )}
+        {/*----------> Doctor Routes <------------- */}
+        {userType === "doctor" && (
+          <Fragment>
+            <Route
+              path="/dashboard/doctor"
+              exact
+              element={
+                <AuthContext.Provider value={{ setUserType }}>
+                  <DoctorDash />
+                </AuthContext.Provider>
+              }
+            />
+            <Route
+              path="/dashboard/doctor/appointments"
+              exact
+              element={
+                <AuthContext.Provider value={{ setUserType }}>
+                  <Appointments />
+                </AuthContext.Provider>
+              }
+            />
+            <Route
+              path="/dashboard/doctor/upload-prescription"
+              exact
+              element={
+                <AuthContext.Provider value={{ setUserType }}>
+                  <UploadPrescription />
+                </AuthContext.Provider>
+              }
+            />
+          </Fragment>
+        )}
+        {/*----------> Patient Routes <------------- */}
+        {userType === "patient" && (
+          <Fragment>
+            <Route
+              path="/dashboard/patient"
+              exact
+              element={
+                <AuthContext.Provider value={{ setUserType }}>
+                  <PatientDash />
+                </AuthContext.Provider>
+              }
+            />
+            <Route
+              path="/dashboard/patient/view-location"
+              exact
+              element={<ViewLocation />}
+            />
+            <Route
+              path="/dashboard/patient/my-appointments"
+              exact
+              element={
+                <AuthContext.Provider value={{ setUserType }}>
+                  <MyAppointments />
+                </AuthContext.Provider>
+              }
+            />
+            <Route
+              path="/dashboard/patient/book-appointment"
+              exact
+              element={
+                <AuthContext.Provider value={{ setUserType }}>
+                  <BookAppointment />
+                </AuthContext.Provider>
+              }
+            />
+            <Route
+              path="/dashboard/patient/make-payment"
+              exact
+              element={
+                <AuthContext.Provider value={{ setUserType }}>
+                  <MakePaymentPatinet />
+                </AuthContext.Provider>
+              }
+            />
+            <Route
+              path="/dashboard/patient/make-payment/card-payment"
+              exact
+              element={
+                <AuthContext.Provider value={{ setUserType }}>
+                  <CardPaymentPatient />
+                </AuthContext.Provider>
+              }
+            />
+            <Route
+              path="/dashboard/patient/make-payment/upi-payment"
+              exact
+              element={
+                <AuthContext.Provider value={{ setUserType }}>
+                  <UpiPaymentPatient />
+                </AuthContext.Provider>
+              }
+            />
+            <Route
+              path="/dashboard/patient/prescriptions"
+              exact
+              element={
+                <AuthContext.Provider value={{ setUserType }}>
+                  <Prescriptions />
+                </AuthContext.Provider>
+              }
+            />
+            <Route
+              path="/dashboard/patient/feedback"
+              exact
+              element={
+                <AuthContext.Provider value={{ setUserType }}>
+                  <Feedback />
+                </AuthContext.Provider>
+              }
+            />
+          </Fragment>
+        )}
+        {/*----------> Staff Routes <------------- */}
+        {userType === "staff" && (
+          <Fragment>
+            <Route
+              path="/dashboard/staff"
+              exact
+              element={
+                <AuthContext.Provider value={{ setUserType }}>
+                  <StaffDash />
+                </AuthContext.Provider>
+              }
+            />
+            <Route
+              path="/dashboard/staff/book-appointment"
+              exact
+              element={
+                <AuthContext.Provider value={{ setUserType }}>
+                  <BookAppointment />
+                </AuthContext.Provider>
+              }
+            />
+            <Route
+              path="/dashboard/staff/cancel-appointment"
+              element={
+                <AuthContext.Provider value={{ setUserType }}>
+                  <CancelAppointment />
+                </AuthContext.Provider>
+              }
+            />
+            <Route
+              path="/dashboard/staff/make-payment"
+              exact
+              element={
+                <AuthContext.Provider value={{ setUserType }}>
+                  <MakePaymentStaff />
+                </AuthContext.Provider>
+              }
+            />
+            <Route
+              path="/dashboard/staff/make-payment/card-payment"
+              element={<CardPaymentStaff />}
+            />
+            <Route
+              path="/dashboard/staff/make-payment/upi-payment"
+              element={<UpiPaymentStaff />}
+            />
+            <Route
+              path="/dashboard/staff/make-payment/cash-payment"
+              element={<CashPayment />}
+            />
+          </Fragment>
+        )}
+        {/*----------> Unknown Routes <------------- */}
         <Route
-          path="/dashboard/staff"
-          exact
+          path="*"
           element={
-            <AuthContext.Provider value={{ setUserType }}>
-              <StaffDash />
+            <AuthContext.Provider value={{ userType }}>
+              <Page404 />
             </AuthContext.Provider>
           }
         />
-        <Route
-          path="/dashboard/doctor"
-          exact
-          element={
-            <AuthContext.Provider value={{ setUserType }}>
-              <DoctorDash />
-            </AuthContext.Provider>
-          }
-        />
-        <Route
-          path="/dashboard/doctor/appointments"
-          exact
-          element={
-            <AuthContext.Provider value={{ setUserType }}>
-              <Appointments />
-            </AuthContext.Provider>
-          }
-        />
-        <Route
-          path="/dashboard/doctor/upload-prescription"
-          exact
-          element={
-            <AuthContext.Provider value={{ setUserType }}>
-              <UploadPrescription />
-            </AuthContext.Provider>
-          }
-        />
-        <Route
-          path="/dashboard/admin"
-          exact
-          element={
-            <AuthContext.Provider value={{ setUserType }}>
-              <AdminDash />
-            </AuthContext.Provider>
-          }
-        />
-        <Route
-          path="/dashboard/patient"
-          exact
-          element={
-            <AuthContext.Provider value={{ setUserType }}>
-              <PatientDash />
-            </AuthContext.Provider>
-          }
-        />
-        <Route
-          path="/dashboard/patient/view-location"
-          exact
-          element={<ViewLocation />}
-        />
-        <Route
-          path="/dashboard/patient/my-appointments"
-          exact
-          element={
-            <AuthContext.Provider value={{ setUserType }}>
-              <MyAppointments />
-            </AuthContext.Provider>
-          }
-        />
-        <Route
-          path="/dashboard/patient/book-appointment"
-          exact
-          element={
-            <AuthContext.Provider value={{ setUserType }}>
-              <BookAppointment />
-            </AuthContext.Provider>
-          }
-        />
-        <Route
-          path="/dashboard/patient/make-payment"
-          exact
-          element={
-            <AuthContext.Provider value={{ setUserType }}>
-              <MakePaymentPatinet />
-            </AuthContext.Provider>
-          }
-        />
-        <Route
-          path="/dashboard/patient/make-payment/card-payment"
-          exact
-          element={
-            <AuthContext.Provider value={{ setUserType }}>
-              <CardPaymentPatient />
-            </AuthContext.Provider>
-          }
-        />
-        <Route
-          path="/dashboard/patient/make-payment/upi-payment"
-          exact
-          element={
-            <AuthContext.Provider value={{ setUserType }}>
-              <UpiPaymentPatient />
-            </AuthContext.Provider>
-          }
-        />
-        <Route
-          path="/dashboard/patient/prescriptions"
-          exact
-          element={
-            <AuthContext.Provider value={{ setUserType }}>
-              <Prescriptions />
-            </AuthContext.Provider>
-          }
-        />
-        <Route
-          path="/dashboard/patient/feedback"
-          exact
-          element={
-            <AuthContext.Provider value={{ setUserType }}>
-              <Feedback />
-            </AuthContext.Provider>
-          }
-        />
-        <Route
-          path="/dashboard/staff/book-appointment"
-          exact
-          element={
-            <AuthContext.Provider value={{ setUserType }}>
-              <BookAppointment />
-            </AuthContext.Provider>
-          }
-        />
-        <Route
-          path="/dashboard/staff/cancel-appointment"
-          element={
-            <AuthContext.Provider value={{ setUserType }}>
-              <CancelAppointment />
-            </AuthContext.Provider>
-          }
-        />
-        <Route
-          path="/dashboard/staff/make-payment"
-          exact
-          element={
-            <AuthContext.Provider value={{ setUserType }}>
-              <MakePaymentStaff />
-            </AuthContext.Provider>
-          }
-        />
-        <Route
-          path="/dashboard/staff/make-payment/card-payment"
-          element={<CardPaymentStaff />}
-        />
-        <Route
-          path="/dashboard/staff/make-payment/upi-payment"
-          element={<UpiPaymentStaff />}
-        />
-        <Route
-          path="/dashboard/staff/make-payment/cash-payment"
-          element={<CashPayment />}
-        />
-        <Route
-          path="/dashboard/admin/doctors'-list"
-          element={
-            <AuthContext.Provider value={{ setUserType }}>
-              <DocList />
-            </AuthContext.Provider>
-          }
-        />
-        <Route
-          path="/dashboard/admin/doctors'-list/add-new"
-          element={
-            <AuthContext.Provider value={{ setUserType }}>
-              <AddNew />
-            </AuthContext.Provider>
-          }
-        />
-        <Route
-          path="/dashboard/admin/generate-stats"
-          element={
-            <AuthContext.Provider value={{ setUserType }}>
-              <GenerateStats />
-            </AuthContext.Provider>
-          }
-        />
-        <Route
-          path="/dashboard/admin/verify-signup"
-          element={
-            <AuthContext.Provider value={{ setUserType }}>
-              <VerifySignUp />
-            </AuthContext.Provider>
-          }
-        />
-        <Route path="*" element={<Page404 />} />
       </Routes>
     </Router>
   );
