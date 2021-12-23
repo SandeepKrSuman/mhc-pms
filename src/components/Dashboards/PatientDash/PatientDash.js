@@ -10,7 +10,7 @@ const cardTitles = [
 ];
 
 function PatientDash() {
-  return <Dashboard userName="PatientXyZ" cards={cardTitles} lgspace={4} />;
+  return <Dashboard cards={cardTitles} lgspace={4} />;
 }
 
 export default PatientDash;

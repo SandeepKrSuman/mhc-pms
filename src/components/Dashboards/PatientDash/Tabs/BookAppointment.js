@@ -110,7 +110,7 @@ const bookingList = [
   },
 ];
 
-function BookAppointment(props) {
+function BookAppointment() {
   const [value, setValue] = useState(new Date());
   const [filteredList, setFilteredList] = useState(
     bookingList.filter((item) => item.id.includes(value.getDay()))
@@ -128,7 +128,7 @@ function BookAppointment(props) {
 
   return (
     <Fragment>
-      <DashBar user={props.userName} />
+      <DashBar />
       <Container className="dash-container" maxWidth="lg">
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DatePicker

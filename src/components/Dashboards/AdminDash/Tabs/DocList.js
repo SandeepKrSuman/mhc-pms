@@ -108,10 +108,10 @@ const docs = [
   },
 ];
 
-function DocList(props) {
+function DocList() {
   return (
     <Fragment>
-      <DashBar user={props.userName} />
+      <DashBar />
       <Container className="dash-container" maxWidth="lg">
         <br />
         <Link

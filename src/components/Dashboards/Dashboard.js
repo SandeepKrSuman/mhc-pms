@@ -8,7 +8,7 @@ import "./Dashboard.css";
 function Dashboard(props) {
   return (
     <Fragment>
-      <DashBar user={props.userName} />
+      <DashBar />
       <Container className="dash-container" maxWidth="lg">
         <Grid container spacing={3}>
           {props.cards.map((cardFor, index) => {

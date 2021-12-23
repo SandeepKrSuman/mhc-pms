@@ -35,10 +35,10 @@ const unverified = [
   },
 ];
 
-function VerifySignUp(props) {
+function VerifySignUp() {
   return (
     <Fragment>
-      <DashBar user="AdminXyZ" />
+      <DashBar />
       <Container className="dash-container" maxWidth="lg">
         <br />
         <Grid container spacing={3}>
