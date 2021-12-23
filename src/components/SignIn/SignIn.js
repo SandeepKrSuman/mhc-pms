@@ -1,4 +1,5 @@
 import * as React from "react";
+import { AuthContext } from "../../App";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -10,7 +11,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import api from "../../api";
 import "./SignIn.css";
 
@@ -21,7 +22,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 export default function SignIn() {
-  let navigate = useNavigate();
+  const auth = React.useContext(AuthContext);
 
   const [searchParams] = useSearchParams();
   const sparam = searchParams.get("new");
@@ -77,7 +78,7 @@ export default function SignIn() {
         const { accessToken, refreshToken } = res.data;
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
-        navigate(`/dashboard/${loggedUser}`);
+        auth.setUserType(loggedUser);
       }
     } catch (error) {
       setErrorMsg(error.response.data.errorMsg);
