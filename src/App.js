@@ -37,7 +37,9 @@ import VerifySignUp from "./components/Dashboards/AdminDash/Tabs/VerifySignUp";
 export const AuthContext = React.createContext();
 
 function App() {
-  const [userType, setUserType] = useState(null);
+  const [userType, setUserType] = useState(
+    jwt.decode(localStorage.getItem("accessToken"))?.userType
+  );
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     const payload = token && jwt.decode(token);
