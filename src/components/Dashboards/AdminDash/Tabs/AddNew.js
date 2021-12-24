@@ -13,11 +13,143 @@ const Alert = forwardRef(function Alert(props, ref) {
 function AddNew() {
   const [succOpen, setSuccOpen] = useState(false);
   const [errOpen, setErrOpen] = useState(false);
+  const [fullName, setFullName] = useState("");
+  const [weekDays, setWeekDays] = useState({
+    Sun: { checked: false, value: null },
+    Mon: { checked: false, value: null },
+    Tue: { checked: false, value: null },
+    Wed: { checked: false, value: null },
+    Thu: { checked: false, value: null },
+    Fri: { checked: false, value: null },
+    Sat: { checked: false, value: null },
+  });
+  const [degree, setDegree] = useState("");
+  const [fee, setFee] = useState("");
+
+  function handleName(event) {
+    const n = event.target.value;
+    setFullName(n);
+  }
+  function handleDegree(event) {
+    const d = event.target.value;
+    setDegree(d);
+  }
+  function handleFee(event) {
+    const f = event.target.value;
+    setFee(f);
+  }
+  function handleCheckSun(event) {
+    setWeekDays((prev) => ({
+      Sun: { checked: !prev.Sun.checked, value: event.target.value },
+      Mon: { checked: prev.Mon.checked, value: prev.Mon.value },
+      Tue: { checked: prev.Tue.checked, value: prev.Tue.value },
+      Wed: { checked: prev.Wed.checked, value: prev.Wed.value },
+      Thu: { checked: prev.Thu.checked, value: prev.Thu.value },
+      Fri: { checked: prev.Fri.checked, value: prev.Fri.value },
+      Sat: { checked: prev.Sat.checked, value: prev.Sat.value },
+    }));
+  }
+  function handleCheckMon(event) {
+    setWeekDays((prev) => ({
+      Sun: { checked: prev.Sun.checked, value: prev.Sun.value },
+      Mon: { checked: !prev.Mon.checked, value: event.target.value },
+      Tue: { checked: prev.Tue.checked, value: prev.Tue.value },
+      Wed: { checked: prev.Wed.checked, value: prev.Wed.value },
+      Thu: { checked: prev.Thu.checked, value: prev.Thu.value },
+      Fri: { checked: prev.Fri.checked, value: prev.Fri.value },
+      Sat: { checked: prev.Sat.checked, value: prev.Sat.value },
+    }));
+  }
+  function handleCheckTue(event) {
+    setWeekDays((prev) => ({
+      Sun: { checked: prev.Sun.checked, value: prev.Sun.value },
+      Mon: { checked: prev.Mon.checked, value: prev.Mon.value },
+      Tue: { checked: !prev.Tue.checked, value: event.target.value },
+      Wed: { checked: prev.Wed.checked, value: prev.Wed.value },
+      Thu: { checked: prev.Thu.checked, value: prev.Thu.value },
+      Fri: { checked: prev.Fri.checked, value: prev.Fri.value },
+      Sat: { checked: prev.Sat.checked, value: prev.Sat.value },
+    }));
+  }
+  function handleCheckWed(event) {
+    setWeekDays((prev) => ({
+      Sun: { checked: prev.Sun.checked, value: prev.Sun.value },
+      Mon: { checked: prev.Mon.checked, value: prev.Mon.value },
+      Tue: { checked: prev.Tue.checked, value: prev.Tue.value },
+      Wed: { checked: !prev.Wed.checked, value: event.target.value },
+      Thu: { checked: prev.Thu.checked, value: prev.Thu.value },
+      Fri: { checked: prev.Fri.checked, value: prev.Fri.value },
+      Sat: { checked: prev.Sat.checked, value: prev.Sat.value },
+    }));
+  }
+  function handleCheckThu(event) {
+    setWeekDays((prev) => ({
+      Sun: { checked: prev.Sun.checked, value: prev.Sun.value },
+      Mon: { checked: prev.Mon.checked, value: prev.Mon.value },
+      Tue: { checked: prev.Tue.checked, value: prev.Tue.value },
+      Wed: { checked: prev.Wed.checked, value: prev.Wed.value },
+      Thu: { checked: !prev.Thu.checked, value: event.target.value },
+      Fri: { checked: prev.Fri.checked, value: prev.Fri.value },
+      Sat: { checked: prev.Sat.checked, value: prev.Sat.value },
+    }));
+  }
+  function handleCheckFri(event) {
+    setWeekDays((prev) => ({
+      Sun: { checked: prev.Sun.checked, value: prev.Sun.value },
+      Mon: { checked: prev.Mon.checked, value: prev.Mon.value },
+      Tue: { checked: prev.Tue.checked, value: prev.Tue.value },
+      Wed: { checked: prev.Wed.checked, value: prev.Wed.value },
+      Thu: { checked: prev.Thu.checked, value: prev.Thu.value },
+      Fri: { checked: !prev.Fri.checked, value: event.target.value },
+      Sat: { checked: prev.Sat.checked, value: prev.Sat.value },
+    }));
+  }
+  function handleCheckSat(event) {
+    setWeekDays((prev) => ({
+      Sun: { checked: prev.Sun.checked, value: prev.Sun.value },
+      Mon: { checked: prev.Mon.checked, value: prev.Mon.value },
+      Tue: { checked: prev.Tue.checked, value: prev.Tue.value },
+      Wed: { checked: prev.Wed.checked, value: prev.Wed.value },
+      Thu: { checked: prev.Thu.checked, value: prev.Thu.value },
+      Fri: { checked: prev.Fri.checked, value: prev.Fri.value },
+      Sat: { checked: !prev.Sat.checked, value: event.target.value },
+    }));
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
+    const wds = Object.keys(weekDays);
+    const trueWds = wds.filter((key) => {
+      return weekDays[key].checked;
+    });
+    const wdstr = trueWds.join(" | ");
+    let wIds = [];
+    trueWds.forEach((key) => {
+      wIds.push(parseInt(weekDays[key].value));
+    });
+    const postData = {
+      docName: fullName,
+      degree: degree,
+      wdays: wdstr,
+      fee: parseInt(fee),
+      wIds: wIds,
+    };
+    // api call post
+    console.log(postData);
+
+    setFullName("");
+    setWeekDays({
+      Sun: { checked: false, value: null },
+      Mon: { checked: false, value: null },
+      Tue: { checked: false, value: null },
+      Wed: { checked: false, value: null },
+      Thu: { checked: false, value: null },
+      Fri: { checked: false, value: null },
+      Sat: { checked: false, value: null },
+    });
+    setDegree("");
+    setFee("");
     setSuccOpen(true);
-    console.log("submited form!");
   }
 
   const handleSuccessClose = (event, reason) => {
@@ -48,7 +180,7 @@ function AddNew() {
           Add to the Doctors' list:
         </Typography>
         <div className="container">
-          <form onSubmit={handleSubmit}>
+          <form validate="true" onSubmit={handleSubmit}>
             <div className="rrow">
               <div className="col-25">
                 <label htmlFor="fullname">Full Name</label>
@@ -59,8 +191,11 @@ function AddNew() {
                   type="text"
                   id="fullname"
                   name="fullname"
+                  value={fullName}
+                  onChange={handleName}
                   placeholder="Doctor's full name..."
-                  autocomplete="off"
+                  autoComplete="off"
+                  required
                 />
               </div>
             </div>
@@ -70,19 +205,68 @@ function AddNew() {
               </div>
               <div className="col-75">
                 <div className="checkbox-container">
-                  <input type="checkbox" id="sun" name="sun" value="0" />
+                  <input
+                    type="checkbox"
+                    id="sun"
+                    name="sun"
+                    value={0}
+                    onChange={handleCheckSun}
+                    checked={weekDays.Sun.checked}
+                  />
                   <label htmlFor="sun"> Sun </label>
-                  <input type="checkbox" id="mon" name="mon" value="1" />
+                  <input
+                    type="checkbox"
+                    id="mon"
+                    name="mon"
+                    value={1}
+                    onChange={handleCheckMon}
+                    checked={weekDays.Mon.checked}
+                  />
                   <label htmlFor="mon"> Mon </label>
-                  <input type="checkbox" id="tue" name="tue" value="2" />
+                  <input
+                    type="checkbox"
+                    id="tue"
+                    name="tue"
+                    value={2}
+                    onChange={handleCheckTue}
+                    checked={weekDays.Tue.checked}
+                  />
                   <label htmlFor="tue"> Tue </label>
-                  <input type="checkbox" id="wed" name="wed" value="3" />
+                  <input
+                    type="checkbox"
+                    id="wed"
+                    name="wed"
+                    value={3}
+                    onChange={handleCheckWed}
+                    checked={weekDays.Wed.checked}
+                  />
                   <label htmlFor="wed"> Wed </label>
-                  <input type="checkbox" id="thu" name="thu" value="4" />
+                  <input
+                    type="checkbox"
+                    id="thu"
+                    name="thu"
+                    value={4}
+                    onChange={handleCheckThu}
+                    checked={weekDays.Thu.checked}
+                  />
                   <label htmlFor="thu"> Thu </label>
-                  <input type="checkbox" id="fri" name="fri" value="5" />
+                  <input
+                    type="checkbox"
+                    id="fri"
+                    name="fri"
+                    value={5}
+                    onChange={handleCheckFri}
+                    checked={weekDays.Fri.checked}
+                  />
                   <label htmlFor="fri"> Fri </label>
-                  <input type="checkbox" id="sat" name="sat" value="6" />
+                  <input
+                    type="checkbox"
+                    id="sat"
+                    name="sat"
+                    value={6}
+                    onChange={handleCheckSat}
+                    checked={weekDays.Sat.checked}
+                  />
                   <label htmlFor="sat"> Sat </label>
                 </div>
               </div>
@@ -97,8 +281,11 @@ function AddNew() {
                   type="text"
                   id="degree"
                   name="degree"
+                  value={degree}
+                  onChange={handleDegree}
                   placeholder="Doctor's degree"
-                  autocomplete="off"
+                  autoComplete="off"
+                  required
                 />
               </div>
             </div>
@@ -109,11 +296,14 @@ function AddNew() {
               <div className="col-75">
                 <input
                   className="inpt"
-                  type="text"
+                  type="number"
                   id="fee"
                   name="fee"
+                  value={fee}
+                  onChange={handleFee}
                   placeholder="Appointment fee..."
-                  autocomplete="off"
+                  autoComplete="off"
+                  required
                 />
               </div>
             </div>
