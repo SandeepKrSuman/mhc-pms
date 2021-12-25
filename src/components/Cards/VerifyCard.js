@@ -4,14 +4,26 @@ import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Fab from "@mui/material/Fab";
 import VerifiedIcon from "@mui/icons-material/Verified";
-import { useNavigate } from "react-router-dom";
+import CloseIcon from "@mui/icons-material/Close";
+import Tooltip from "@mui/material/Tooltip";
+import { useNavigate, createSearchParams } from "react-router-dom";
 
-const styles = {
+const styleVerify = {
   backgroundColor: "#64dd17",
   color: "#000000",
   ":hover": {
     backgroundColor: "#64dd17",
     color: "#000000",
+  },
+};
+
+const styleReject = {
+  backgroundColor: "#FF1700",
+  marginLeft: "auto",
+  color: "#ffffff",
+  ":hover": {
+    backgroundColor: "#FF1700",
+    color: "#ffffff",
   },
 };
 
@@ -21,8 +33,18 @@ export default function VerifyCard(props) {
   function handleVerify() {
     console.log("Verified!");
     if (props.unvuser === "doctor") {
-      navigate(`/dashboard/admin/doctors'-list/add-new?name=${props.heading}`);
+      navigate({
+        pathname: "/dashboard/admin/doctors'-list/add-new",
+        search: `?${createSearchParams({
+          name: props.heading,
+          degree: props.degree,
+        })}`,
+      });
     }
+  }
+
+  function handleReject() {
+    console.log("Rejected!");
   }
 
   return (
@@ -37,9 +59,16 @@ export default function VerifyCard(props) {
         </Typography>
         <br />
         <CardActions disableSpacing>
-          <Fab onClick={handleVerify} style={styles} aria-label="edit">
-            <VerifiedIcon />
-          </Fab>
+          <Tooltip title="Verify User">
+            <Fab onClick={handleVerify} style={styleVerify} aria-label="edit">
+              <VerifiedIcon />
+            </Fab>
+          </Tooltip>
+          <Tooltip title="Reject User">
+            <Fab onClick={handleReject} style={styleReject} aria-label="edit">
+              <CloseIcon />
+            </Fab>
+          </Tooltip>
         </CardActions>
       </CardContent>
     </Card>
