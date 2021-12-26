@@ -15,7 +15,7 @@ export default function AppointmentCard(props) {
       <CardContent>
         <br />
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Your Appointment with
+          Appointment with
         </Typography>
         <Typography variant="h5" component="div">
           {props.doc}
