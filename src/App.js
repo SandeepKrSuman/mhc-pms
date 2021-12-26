@@ -180,7 +180,7 @@ function App() {
               exact
               element={
                 <AuthContext.Provider value={{ setUserType }}>
-                  <BookAppointment />
+                  <BookAppointment linkto="patient" />
                 </AuthContext.Provider>
               }
             />
@@ -248,7 +248,7 @@ function App() {
               exact
               element={
                 <AuthContext.Provider value={{ setUserType }}>
-                  <BookAppointment />
+                  <BookAppointment linkto="staff" />
                 </AuthContext.Provider>
               }
             />

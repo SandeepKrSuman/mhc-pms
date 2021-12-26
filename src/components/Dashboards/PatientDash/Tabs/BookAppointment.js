@@ -110,7 +110,7 @@ const bookingList = [
   },
 ];
 
-function BookAppointment() {
+function BookAppointment(props) {
   const [value, setValue] = useState(new Date());
   const [filteredList, setFilteredList] = useState(
     bookingList.filter((item) => item.id.includes(value.getDay()))
@@ -156,6 +156,7 @@ function BookAppointment() {
                   degree={doc.degree}
                   subheading={doc.subheading}
                   fee={doc.fee}
+                  linkto={props.linkto}
                 />
               </Grid>
             );

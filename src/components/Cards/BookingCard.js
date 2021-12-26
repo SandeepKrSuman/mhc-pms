@@ -25,7 +25,10 @@ export default function BookingCard(props) {
         </Typography>
         <br />
         <CardActions disableSpacing>
-          <Link className="link-btn" to="/dashboard/patient/make-payment">
+          <Link
+            className="link-btn"
+            to={`/dashboard/${props.linkto}/make-payment`}
+          >
             <Button
               variant="contained"
               color="warning"
