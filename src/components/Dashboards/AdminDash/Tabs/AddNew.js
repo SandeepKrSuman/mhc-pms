@@ -4,6 +4,7 @@ import DashBar from "../../../DashBar/DashBar";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
+import { useSearchParams } from "react-router-dom";
 import "./AddNew.css";
 
 const Alert = forwardRef(function Alert(props, ref) {
@@ -11,9 +12,12 @@ const Alert = forwardRef(function Alert(props, ref) {
 });
 
 function AddNew() {
+  const [searchParams] = useSearchParams();
+  const nm = searchParams.get("name");
+  const dg = searchParams.get("degree");
   const [succOpen, setSuccOpen] = useState(false);
   const [errOpen, setErrOpen] = useState(false);
-  const [fullName, setFullName] = useState("");
+  const [fullName, setFullName] = useState(nm ? nm : "");
   const [weekDays, setWeekDays] = useState({
     Sun: { checked: false, value: null },
     Mon: { checked: false, value: null },
@@ -23,7 +27,7 @@ function AddNew() {
     Fri: { checked: false, value: null },
     Sat: { checked: false, value: null },
   });
-  const [degree, setDegree] = useState("");
+  const [degree, setDegree] = useState(dg ? dg : "");
   const [fee, setFee] = useState("");
 
   function handleName(event) {

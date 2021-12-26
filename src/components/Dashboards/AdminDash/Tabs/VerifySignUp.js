@@ -9,6 +9,7 @@ const unverified = [
     fname: "S.",
     lname: "Bakshi",
     user: "doctor",
+    degree: "MBBS",
     email: "bakshi@hi.ro",
     verified: false,
   },
@@ -16,6 +17,7 @@ const unverified = [
     fname: "S.",
     lname: "Dey",
     user: "doctor",
+    degree: "MBBS, MS",
     email: "dey@hi.ro",
     verified: false,
   },
@@ -23,6 +25,7 @@ const unverified = [
     fname: "B.",
     lname: "Rey",
     user: "staff",
+    degree: "N/A",
     email: "rey@hi.ro",
     verified: false,
   },
@@ -30,6 +33,7 @@ const unverified = [
     fname: "R.",
     lname: "Ranu",
     user: "staff",
+    degree: "N/A",
     email: "ranu@hi.ro",
     verified: false,
   },
@@ -51,6 +55,7 @@ function VerifySignUp() {
                       ? `Dr. ${unv.fname} ${unv.lname}`
                       : `${unv.fname} ${unv.lname}`
                   }
+                  degree={unv.degree}
                   subheading={unv.email}
                   unvuser={unv.user}
                 />
