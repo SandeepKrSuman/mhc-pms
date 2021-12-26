@@ -13,7 +13,7 @@ function GenerateStats() {
 
   return (
     <Fragment>
-      <DashBar user="AdminXyZ" />
+      <DashBar />
       <Container className="dash-container" maxWidth="lg">
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={6}>

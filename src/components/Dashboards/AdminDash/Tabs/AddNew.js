@@ -174,7 +174,7 @@ function AddNew() {
 
   return (
     <Fragment>
-      <DashBar user="AdminXyZ" />
+      <DashBar />
       <Container
         sx={{ marginTop: "10vh" }}
         className="dash-container"

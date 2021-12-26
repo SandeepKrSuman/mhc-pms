@@ -15,7 +15,7 @@ function MyAppointments() {
   if (appointments.length > 0) {
     return (
       <Fragment>
-        <DashBar user={"PatientXyZ"} />
+        <DashBar />
         <Container className="dash-container" maxWidth="md">
           <Grid container spacing={3}>
             {appointments.map((appointment, index) => {
@@ -35,7 +35,7 @@ function MyAppointments() {
   } else {
     return (
       <Fragment>
-        <DashBar user={"UserXyZ"} />
+        <DashBar />
         <Container sx={{ textAlign: "center" }}>
           <Typography
             sx={{ marginTop: "30vh" }}

@@ -15,7 +15,7 @@ function Prescriptions() {
   if (prs.length > 0) {
     return (
       <Fragment>
-        <DashBar user={"PatientXyZ"} />
+        <DashBar />
         <Container className="dash-container" maxWidth="md">
           <Grid container spacing={3}>
             {prs.map((prescription, index) => {
@@ -35,7 +35,7 @@ function Prescriptions() {
   } else {
     return (
       <Fragment>
-        <DashBar user={"UserXyZ"} />
+        <DashBar />
         <Container sx={{ textAlign: "center" }}>
           <Typography
             sx={{ marginTop: "30vh" }}
