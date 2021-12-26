@@ -17,13 +17,16 @@ function UploadPrescription() {
   if (appointments.length > 0) {
     return (
       <Fragment>
-        <DashBar user={"PatientXyZ"} />
+        <DashBar />
         <Container className="dash-container" maxWidth="md">
           <Grid container spacing={3}>
             {appointments.map((apmt, index) => {
               return (
                 <Grid key={index} item xs={12}>
-                  <UploadPrescriptionCard patient={apmt.patient} />
+                  <UploadPrescriptionCard
+                    useKey={index}
+                    patient={apmt.patient}
+                  />
                 </Grid>
               );
             })}
@@ -34,7 +37,7 @@ function UploadPrescription() {
   } else {
     return (
       <Fragment>
-        <DashBar user={"UserXyZ"} />
+        <DashBar />
         <Container sx={{ textAlign: "center" }}>
           <Typography
             sx={{ marginTop: "30vh" }}

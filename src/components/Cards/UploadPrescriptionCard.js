@@ -15,7 +15,7 @@ export default function UploadPrescriptionCard(props) {
           {props.patient}
         </Typography>
         <br /> <br />
-        <FileUploader />
+        <FileUploader useKey={props.useKey} />
       </CardContent>
     </Card>
   );

@@ -16,7 +16,7 @@ const useStyle = {
   fontSize: "1.2rem",
 };
 
-export default function FileUploader() {
+export default function FileUploader(props) {
   const [fileName, setFileName] = useState(null);
 
   function handleChange(e) {
@@ -31,11 +31,11 @@ export default function FileUploader() {
 
   return (
     <FormGroup>
-      <label htmlFor="contained-button-file">
+      <label htmlFor={`file-uploader-${props.useKey}`}>
         <Input
           onChange={handleChange}
           accept="image/*, application/pdf"
-          id="contained-button-file"
+          id={`file-uploader-${props.useKey}`}
           type="file"
         />
         <Button
