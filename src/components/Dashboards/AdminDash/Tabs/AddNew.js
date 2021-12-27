@@ -6,6 +6,7 @@ import MuiAlert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
 import { useSearchParams } from "react-router-dom";
 import "./AddNew.css";
+import api from "../../../../api";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -29,6 +30,8 @@ function AddNew() {
   });
   const [degree, setDegree] = useState(dg ? dg : "");
   const [fee, setFee] = useState("");
+  const [errorMessage, setErrorMessage] = useState("Something went wrong!");
+  const [successMessage, setSuccessMessage] = useState("Successful!");
 
   function handleName(event) {
     const n = event.target.value;
@@ -120,7 +123,7 @@ function AddNew() {
     }));
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     const wds = Object.keys(weekDays);
     const trueWds = wds.filter((key) => {
@@ -138,8 +141,21 @@ function AddNew() {
       fee: parseInt(fee),
       wIds: wIds,
     };
-    // api call post
-    console.log(postData);
+
+    try {
+      const res = await api.addNew(postData);
+      if (res.data.error) {
+        setErrorMessage(res.data.erroMsg);
+        setErrOpen(true);
+      } else {
+        setSuccessMessage(res.data.msg);
+        setSuccOpen(true);
+      }
+    } catch (error) {
+      setErrorMessage(error.response.data.errorMsg);
+      setErrOpen(true);
+      console.log(error);
+    }
 
     setFullName("");
     setWeekDays({
@@ -153,7 +169,6 @@ function AddNew() {
     });
     setDegree("");
     setFee("");
-    setSuccOpen(true);
   }
 
   const handleSuccessClose = (event, reason) => {
@@ -197,7 +212,7 @@ function AddNew() {
                   name="fullname"
                   value={fullName}
                   onChange={handleName}
-                  placeholder="Doctor's full name..."
+                  placeholder="Doctor's full name including honorific..."
                   autoComplete="off"
                   required
                 />
@@ -330,7 +345,7 @@ function AddNew() {
           severity="success"
           sx={{ width: "100%" }}
         >
-          Successfully Added !
+          {successMessage}
         </Alert>
       </Snackbar>
       <Snackbar
@@ -345,7 +360,7 @@ function AddNew() {
           severity="error"
           sx={{ width: "100%" }}
         >
-          Unable to add. An error occured!
+          {errorMessage}
         </Alert>
       </Snackbar>
     </Fragment>
