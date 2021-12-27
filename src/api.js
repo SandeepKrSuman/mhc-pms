@@ -58,6 +58,10 @@ const api = {
     return axios.delete(`${baseUrl}/auth/logout`, body);
   },
 
+  docList: () => {
+    return axios.get(`${baseUrl}/doctor/list`);
+  },
+
   addNew: (body) => {
     return axios.post(`${baseUrl}/doctor/new`, body);
   },
