@@ -8,6 +8,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import api from "../../api";
 
 const styles = {
   backgroundColor: "#FF5403",
@@ -35,9 +36,19 @@ export default function DocListCard(props) {
     setNewFee(nf);
   }
 
-  function handleDone() {
-    // update fee in db
-    setNewFee("");
+  async function handleDone() {
+    try {
+      const res = await api.updateFee({ docName: props.heading, fee: newFee });
+      if (res.data.error) {
+        alert(res.data.errorMsg);
+      } else {
+        setNewFee("");
+        window.location.reload();
+      }
+    } catch (error) {
+      alert(error.response.data.errorMsg);
+      console.log(error);
+    }
   }
 
   return (
