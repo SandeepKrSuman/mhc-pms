@@ -58,6 +58,14 @@ const api = {
     return axios.delete(`${baseUrl}/auth/logout`, body);
   },
 
+  addNew: (body) => {
+    return axios.post(`${baseUrl}/doctor/new`, body);
+  },
+
+  updateFee: (body) => {
+    return axios.post(`${baseUrl}/doctor/fee`, body);
+  },
+
   // getProtected: () => {
   //     return axios.get(`${baseUrl}/protected_resource`);
   // },
