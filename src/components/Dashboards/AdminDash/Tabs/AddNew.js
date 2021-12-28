@@ -16,9 +16,11 @@ function AddNew() {
   const [searchParams] = useSearchParams();
   const nm = searchParams.get("name");
   const dg = searchParams.get("degree");
+  const demail = searchParams.get("demail");
   const [succOpen, setSuccOpen] = useState(false);
   const [errOpen, setErrOpen] = useState(false);
   const [fullName, setFullName] = useState(nm ? nm : "");
+  const [email, setEmail] = useState(demail ? demail : "");
   const [weekDays, setWeekDays] = useState({
     Sun: { checked: false, value: null },
     Mon: { checked: false, value: null },
@@ -36,6 +38,10 @@ function AddNew() {
   function handleName(event) {
     const n = event.target.value;
     setFullName(n);
+  }
+  function handleEmail(event) {
+    const e = event.target.value;
+    setEmail(e);
   }
   function handleDegree(event) {
     const d = event.target.value;
@@ -220,6 +226,23 @@ function AddNew() {
             </div>
             <div className="rrow">
               <div className="col-25">
+                <label htmlFor="email">Email</label>
+              </div>
+              <div className="col-75">
+                <input
+                  className="inpt"
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={email}
+                  onChange={handleEmail}
+                  placeholder="Registered Email Id..."
+                  required
+                />
+              </div>
+            </div>
+            <div className="rrow">
+              <div className="col-25">
                 <label htmlFor="weekdays">Week Days</label>
               </div>
               <div className="col-75">
@@ -332,7 +355,7 @@ function AddNew() {
             </div>
           </form>
         </div>
-        {nm && dg && (
+        {nm && dg && demail && (
           <Typography variant="caption" gutterBottom component="div">
             * List will not be updated if you leave the page without submitting.
             *
