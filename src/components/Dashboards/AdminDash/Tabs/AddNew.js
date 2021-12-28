@@ -332,6 +332,12 @@ function AddNew() {
             </div>
           </form>
         </div>
+        {nm && dg && (
+          <Typography variant="caption" gutterBottom component="div">
+            * List will not be updated if you leave the page without submitting.
+            *
+          </Typography>
+        )}
       </Container>
       <Snackbar
         key={"success"}

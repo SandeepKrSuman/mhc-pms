@@ -13,8 +13,17 @@ function DocList() {
 
   useEffect(() => {
     async function fetchDocList() {
-      const res = await api.docList();
-      setDocs(res.data);
+      try {
+        const res = await api.docList();
+        if (res.data.error) {
+          alert(res.data.errorMsg);
+        } else {
+          setDocs(res.data);
+        }
+      } catch (error) {
+        alert(error.response.data.errorMsg);
+        console.log(error);
+      }
     }
     fetchDocList();
   }, []);

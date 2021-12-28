@@ -70,6 +70,18 @@ const api = {
     return axios.post(`${baseUrl}/doctor/fee`, body);
   },
 
+  unverified: (body) => {
+    return axios.get(`${baseUrl}/users/unverified`, body);
+  },
+
+  verify: (body) => {
+    return axios.post(`${baseUrl}/users/unverified/verify`, body);
+  },
+
+  reject: (body) => {
+    return axios.delete(`${baseUrl}/users/unverified/reject`, body);
+  },
+
   // getProtected: () => {
   //     return axios.get(`${baseUrl}/protected_resource`);
   // },
