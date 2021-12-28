@@ -70,8 +70,8 @@ const api = {
     return axios.post(`${baseUrl}/doctor/fee`, body);
   },
 
-  unverified: (body) => {
-    return axios.get(`${baseUrl}/users/unverified`, body);
+  unverified: () => {
+    return axios.get(`${baseUrl}/users/unverified`);
   },
 
   verify: (body) => {
@@ -80,6 +80,10 @@ const api = {
 
   reject: (body) => {
     return axios.delete(`${baseUrl}/users/unverified/reject`, body);
+  },
+
+  generateStats: () => {
+    return axios.get(`${baseUrl}/generate/stats`);
   },
 
   // getProtected: () => {

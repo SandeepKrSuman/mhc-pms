@@ -1,27 +1,59 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import StatsCard from "../../../Cards/StatsCard";
 import DashBar from "../../../DashBar/DashBar";
+import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
+import FeedbackIcon from "@mui/icons-material/Feedback";
+import api from "../../../../api";
 
 function GenerateStats() {
-  const mrd = "Dr. S. Bakshi";
-  const stars = 5;
-  const nop = 100;
-  const dmwd = "Dr. Raman Raghav";
-  const nos = 5;
+  const [mrd, setMrd] = useState("");
+  const [nop, setNop] = useState(null);
+  const [dmwd, setDmwd] = useState("");
+  const [nos, setNos] = useState(null);
+  const [nod, setNod] = useState(null);
+
+  useEffect(() => {
+    async function fetchStats() {
+      try {
+        const res = await api.generateStats();
+        if (res.data.error) {
+          alert(res.data.errorMsg);
+        } else {
+          setMrd(res.data.mrd);
+          setNop(res.data.nop);
+          setDmwd(res.data.dmwd);
+          setNos(res.data.nos);
+          setNod(res.data.nod);
+        }
+      } catch (error) {
+        alert(error.response.data.errorMsg);
+        console.log(error);
+      }
+    }
+
+    fetchStats();
+  }, []);
 
   return (
     <Fragment>
       <DashBar />
       <Container className="dash-container" maxWidth="lg">
+        <br />
+        <Link
+          style={{ textDecoration: "none" }}
+          to="/dashboard/admin/generate-stats/feedbacks"
+        >
+          <Button variant="outlined" startIcon={<FeedbackIcon />} size="large">
+            Patient Feedbacks
+          </Button>
+        </Link>
+        <br /> <br />
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={6}>
-            <StatsCard
-              heading={mrd}
-              subheading="Most Rated Doctor"
-              star={stars}
-            />
+            <StatsCard heading={mrd} subheading="Most Rated Doctor" />
           </Grid>
           <Grid item xs={12} md={6} lg={6}>
             <StatsCard heading={nop} subheading="Patients visited so far" />
@@ -37,6 +69,9 @@ function GenerateStats() {
               heading={nos}
               subheading="Number of verified reception staffs"
             />
+          </Grid>
+          <Grid item xs={12} md={6} lg={6}>
+            <StatsCard heading={nod} subheading="Number of verified doctors" />
           </Grid>
         </Grid>
       </Container>
