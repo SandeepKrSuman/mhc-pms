@@ -31,6 +31,7 @@ export default function SignUp() {
   }, []);
 
   const [user, setUser] = useState("patient");
+  const [degree, setDegree] = useState("");
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [email, setEmail] = useState("");
@@ -58,6 +59,9 @@ export default function SignUp() {
   const handleLname = (event) => {
     setLname(event.target.value);
   };
+  const handleDegree = (event) => {
+    setDegree(event.target.value);
+  };
   const handleEmail = (event) => {
     setEmail(event.target.value);
   };
@@ -69,11 +73,13 @@ export default function SignUp() {
     event.preventDefault();
 
     const verified = user === "patient" ? true : false;
+    const deg = user === "doctor" ? degree : "N/A";
 
     const postData = {
       userType: user,
       fname: fname,
       lname: lname,
+      degr: deg,
       email: email,
       password: password,
       verified: verified,
@@ -171,6 +177,20 @@ export default function SignUp() {
                   onChange={handleLname}
                 />
               </Grid>
+              {user === "doctor" && (
+                <Grid item xs={12}>
+                  <TextField
+                    autoComplete="given-name"
+                    name="degree"
+                    required
+                    fullWidth
+                    id="degree"
+                    label="Degree"
+                    value={degree}
+                    onChange={handleDegree}
+                  />
+                </Grid>
+              )}
               <Grid item xs={12}>
                 <TextField
                   required
