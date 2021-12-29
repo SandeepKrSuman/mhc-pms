@@ -1,20 +1,44 @@
+import React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, createSearchParams } from "react-router-dom";
 import "./DashCard.css";
+import { PaymentContext } from "../Dashboards/PatientDash/Tabs/MakePayment";
 
 export default function DashCard(props) {
+  const payment = React.useContext(PaymentContext);
   let navigate = useNavigate();
   const { pathname } = useLocation();
+  const srch =
+    payment &&
+    `?${createSearchParams({
+      pemail: payment.pemail,
+      demail: payment.demail,
+      doa: payment.doa,
+    })}`;
 
   function handleClick(cardTitle) {
     let tab = cardTitle.toLowerCase();
     const tabName = tab.split(" ").join("-");
     if (pathname.charAt(pathname.length - 1) === "/") {
-      navigate(`${pathname}${tabName}`);
+      if (payment && payment.pemail && payment.demail && payment.doa) {
+        navigate({
+          pathname: `${pathname}${tabName}`,
+          search: srch,
+        });
+      } else {
+        navigate(`${pathname}${tabName}`);
+      }
     } else {
-      navigate(`${pathname}/${tabName}`);
+      if (payment && payment.pemail && payment.demail && payment.doa) {
+        navigate({
+          pathname: `${pathname}/${tabName}`,
+          search: srch,
+        });
+      } else {
+        navigate(`${pathname}/${tabName}`);
+      }
     }
   }
 

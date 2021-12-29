@@ -16,8 +16,17 @@ import {
 
 import "react-credit-cards/es/styles-compiled.css";
 import "./CardPay.css";
+import api from "../../../api";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 function CardPay() {
+  const navigate = useNavigate();
+
+  const [searchParams] = useSearchParams();
+  const pemail = searchParams ? searchParams.get("pemail") : null;
+  const demail = searchParams ? searchParams.get("demail") : null;
+  const doa = searchParams ? searchParams.get("doa") : null;
+
   const [number, setNumber] = useState("");
   const [name, setName] = useState("");
   const [expiry, setExpiry] = useState("");
@@ -64,14 +73,26 @@ function CardPay() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const res = await api.makePayment({ pemail, demail, doa });
+      if (res.data.error) {
+        alert(res.data.errorMsg);
+      } else {
+        alert(res.data.msg);
+      }
+    } catch (error) {
+      alert(error.response.data.errorMsg);
+      console.error(error);
+    }
     formRef.reset();
     setOpen(true);
   };
 
   function handleClose() {
     setOpen(false);
+    navigate("/dashboard/patient", { replace: true });
   }
 
   return (

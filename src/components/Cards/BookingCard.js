@@ -4,9 +4,63 @@ import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import AddTaskIcon from "@mui/icons-material/AddTask";
-import { Link } from "react-router-dom";
+import { useNavigate, createSearchParams } from "react-router-dom";
+import api from "../../api";
+import jwt from "jsonwebtoken";
 
 export default function BookingCard(props) {
+  const navigate = useNavigate();
+  async function handleClick() {
+    const token = localStorage.getItem("accessToken");
+    const payload = token && jwt.decode(token);
+    const patient = payload && payload.name;
+    const pemail = payload && payload.userType === "patient" && payload.email;
+    const d = new Date(props.date);
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "June",
+      "Jul",
+      "Aug",
+      "Sept",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    let month = months[d.getMonth()];
+    let dt = d.getDate();
+    let year = d.getFullYear();
+    const date = dt + " " + month + " " + year;
+    const postData = {
+      patient: patient,
+      doctor: props.heading,
+      pemail: pemail,
+      demail: props.demail,
+      date: date,
+      doa: Date.parse(props.date),
+    };
+    try {
+      const res = await api.bookAppointment(postData);
+      if (res.data.error) {
+        alert(res.data.errorMsg);
+      } else {
+        navigate({
+          pathname: `/dashboard/${props.linkto}/make-payment`,
+          search: `?${createSearchParams({
+            pemail,
+            demail: props.demail,
+            doa: Date.parse(props.date),
+          })}`,
+        });
+      }
+    } catch (error) {
+      alert(error.response.data.errorMsg);
+      console.log(error);
+    }
+  }
   return (
     <Card sx={{ maxWidth: "100%", textAlign: "center" }} variant="outlined">
       <CardContent>
@@ -25,18 +79,14 @@ export default function BookingCard(props) {
         </Typography>
         <br />
         <CardActions disableSpacing>
-          <Link
-            className="link-btn"
-            to={`/dashboard/${props.linkto}/make-payment`}
+          <Button
+            variant="contained"
+            color="warning"
+            endIcon={<AddTaskIcon />}
+            onClick={handleClick}
           >
-            <Button
-              variant="contained"
-              color="warning"
-              endIcon={<AddTaskIcon />}
-            >
-              BOOK
-            </Button>
-          </Link>
+            BOOK
+          </Button>
         </CardActions>
       </CardContent>
     </Card>

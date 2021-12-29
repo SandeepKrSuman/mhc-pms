@@ -86,9 +86,17 @@ const api = {
     return axios.get(`${baseUrl}/generate/stats`);
   },
 
-  // getProtected: () => {
-  //     return axios.get(`${baseUrl}/protected_resource`);
-  // },
+  bookAppointment: (body) => {
+    return axios.post(`${baseUrl}/booking/appointment`, body);
+  },
+
+  duePayment: () => {
+    return axios.get(`${baseUrl}/booking/duepayment`);
+  },
+
+  makePayment: (body) => {
+    return axios.post(`${baseUrl}/booking/payment`, body);
+  },
 };
 
 export default api;
