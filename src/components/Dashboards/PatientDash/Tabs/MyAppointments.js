@@ -1,17 +1,38 @@
-import { Fragment } from "react";
+import { Fragment, useState, useEffect } from "react";
 import Container from "@mui/material/Container";
 import DashBar from "../../../DashBar/DashBar";
 import AppointmentCard from "../../../Cards/AppointmentCard";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-
-const appointments = [
-  { doc: "Dr. S. Bakshi", date: "12/08/2021" },
-  { doc: "Dr. S. Dey", date: "12/10/2021" },
-  { doc: "Dr. S. Santra", date: "12/20/2021" },
-];
+import jwt from "jsonwebtoken";
+import api from "../../../../api";
 
 function MyAppointments() {
+  const [appointments, setAppointments] = useState([]);
+
+  useEffect(() => {
+    async function fetchAppointments() {
+      try {
+        const token = localStorage.getItem("accessToken");
+        const payload = token && jwt.decode(token);
+        const ptemail = payload.userType === "patient" && payload.email;
+        const res = await api.myAppointments();
+        if (res.data.error) {
+          alert(res.data.errorMsg);
+        } else {
+          const appoints = res.data.filter(
+            (appoint) => appoint.pemail === ptemail
+          );
+          setAppointments(appoints);
+        }
+      } catch (error) {
+        alert(error.response.data.errorMsg);
+        console.log(error);
+      }
+    }
+    fetchAppointments();
+  }, []);
+
   if (appointments.length > 0) {
     return (
       <Fragment>
@@ -22,8 +43,11 @@ function MyAppointments() {
               return (
                 <Grid key={index} item xs={12}>
                   <AppointmentCard
-                    doc={appointment.doc}
+                    doc={appointment.doctor}
                     date={appointment.date}
+                    pemail={appointment.pemail}
+                    demail={appointment.demail}
+                    doa={appointment.doa}
                   />
                 </Grid>
               );

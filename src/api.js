@@ -97,6 +97,14 @@ const api = {
   makePayment: (body) => {
     return axios.post(`${baseUrl}/booking/payment`, body);
   },
+
+  myAppointments: () => {
+    return axios.get(`${baseUrl}/patient/appointments`);
+  },
+
+  cancelAppointment: (body) => {
+    return axios.delete(`${baseUrl}/patient/appointments/cancel`, body);
+  },
 };
 
 export default api;

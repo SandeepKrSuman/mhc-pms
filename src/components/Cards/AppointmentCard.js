@@ -4,10 +4,24 @@ import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import CancelIcon from "@mui/icons-material/Cancel";
+import api from "../../api";
 
 export default function AppointmentCard(props) {
-  function handleCancel() {
-    console.log("Appointment Cancelled!!");
+  async function handleCancel() {
+    try {
+      const res = await api.cancelAppointment({
+        data: { pemail: props.pemail, demail: props.demail, doa: props.doa },
+      });
+      if (res.data.error) {
+        alert(res.data.erroMsg);
+      } else {
+        alert(res.data.msg);
+        window.location.reload();
+      }
+    } catch (error) {
+      alert(error.response.data.errorMsg);
+      console.log(error);
+    }
   }
 
   return (
