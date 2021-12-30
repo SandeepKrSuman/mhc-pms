@@ -17,7 +17,7 @@ export default function AppointmentCard(props) {
         </Typography>
         <br /> <br />
         <Fab
-          href="/downloadFiles/prescription.pdf"
+          href={props.file_url}
           download="my-prescription"
           color="primary"
           variant="extended"

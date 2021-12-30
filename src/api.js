@@ -105,6 +105,10 @@ const api = {
   cancelAppointment: (body) => {
     return axios.delete(`${baseUrl}/patient/appointments/cancel`, body);
   },
+
+  prescriptions: () => {
+    return axios.get(`${baseUrl}/patient/prescriptions`);
+  },
 };
 
 export default api;
