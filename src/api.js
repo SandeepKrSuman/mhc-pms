@@ -109,6 +109,14 @@ const api = {
   prescriptions: () => {
     return axios.get(`${baseUrl}/patient/prescriptions`);
   },
+
+  writeFeedback: (body) => {
+    return axios.post(`${baseUrl}/patient/feedback/write`, body);
+  },
+
+  deleteFeedback: (body) => {
+    return axios.post(`${baseUrl}/patient/feedback/delete`, body);
+  },
 };
 
 export default api;

@@ -9,28 +9,60 @@ import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Fab from "@mui/material/Fab";
 import Tooltip from "@mui/material/Tooltip";
+import api from "../../api";
 
 export default function FeedbackCard(props) {
-  const [value, setValue] = useState(3);
-  const [feedbackText, setFeedbackText] = useState("");
-  const [submit, setSubmit] = useState(false);
+  const [value, setValue] = useState(props.initialRating);
+  const [feedbackText, setFeedbackText] = useState(props.initialReview);
+  const [submit, setSubmit] = useState(props.feedbackAvailable);
 
   function handleChange(event) {
     setFeedbackText(event.target.value);
-  }
-
-  function handleSubmit() {
-    console.log({
-      rating: value,
-      feedback: feedbackText,
-    });
-    setSubmit(true);
-  }
-
-  function handleDelete() {
-    setFeedbackText("");
-    setValue(0);
     setSubmit(false);
+  }
+
+  async function handleSubmit() {
+    try {
+      const res = await api.writeFeedback({
+        pemail: props.pemail,
+        demail: props.demail,
+        doa: props.doa,
+        rating: value,
+        review: feedbackText,
+      });
+      if (res.data.error) {
+        alert(res.data.errorMsg);
+      } else {
+        setSubmit(true);
+        alert(res.data.msg);
+      }
+    } catch (error) {
+      alert(error.response.data.errorMsg);
+      console.log(error);
+    }
+  }
+
+  async function handleDelete() {
+    try {
+      const res = await api.deleteFeedback({
+        pemail: props.pemail,
+        demail: props.demail,
+        doa: props.doa,
+        rating: value,
+        review: feedbackText,
+      });
+      if (res.data.error) {
+        alert(res.data.errorMsg);
+      } else {
+        setFeedbackText("");
+        setValue(0);
+        setSubmit(false);
+        alert(res.data.msg);
+      }
+    } catch (error) {
+      alert(error.response.data.errorMsg);
+      console.log(error);
+    }
   }
 
   return (
@@ -61,6 +93,7 @@ export default function FeedbackCard(props) {
             value={value}
             onChange={(event, newValue) => {
               setValue(newValue);
+              setSubmit(false);
             }}
           />
           {submit ? (
