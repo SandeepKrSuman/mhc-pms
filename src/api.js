@@ -86,6 +86,10 @@ const api = {
     return axios.get(`${baseUrl}/generate/stats`);
   },
 
+  patientFeedbacks: () => {
+    return axios.get(`${baseUrl}/patient/feedbacks`);
+  },
+
   bookAppointment: (body) => {
     return axios.post(`${baseUrl}/booking/appointment`, body);
   },

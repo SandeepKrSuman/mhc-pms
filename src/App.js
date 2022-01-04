@@ -33,6 +33,7 @@ import DocList from "./components/Dashboards/AdminDash/Tabs/DocList";
 import AddNew from "./components/Dashboards/AdminDash/Tabs/AddNew";
 import GenerateStats from "./components/Dashboards/AdminDash/Tabs/GenerateStats";
 import VerifySignUp from "./components/Dashboards/AdminDash/Tabs/VerifySignUp";
+import Feedbacks from "./components/Dashboards/AdminDash/Tabs/Feedbacks";
 
 export const AuthContext = React.createContext();
 
@@ -112,6 +113,15 @@ function App() {
               element={
                 <AuthContext.Provider value={{ setUserType }}>
                   <VerifySignUp />
+                </AuthContext.Provider>
+              }
+            />
+            <Route
+              path="/dashboard/admin/generate-stats/feedbacks"
+              exact
+              element={
+                <AuthContext.Provider value={{ setUserType }}>
+                  <Feedbacks />
                 </AuthContext.Provider>
               }
             />
