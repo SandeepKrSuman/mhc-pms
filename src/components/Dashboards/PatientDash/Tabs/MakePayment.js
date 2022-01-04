@@ -65,6 +65,7 @@ function MakePaymentPatinet() {
                       doa={due.doa}
                       doc={due.doctor}
                       date={due.date}
+                      caller="patient"
                     />
                   </Grid>
                 );

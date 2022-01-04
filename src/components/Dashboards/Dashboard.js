@@ -14,7 +14,7 @@ function Dashboard(props) {
           {props.cards.map((cardFor, index) => {
             return (
               <Grid key={index} item xs={12} md={6} lg={props.lgspace}>
-                <DashCard cardTitle={cardFor} />
+                <DashCard cardTitle={cardFor} from={props.from} />
               </Grid>
             );
           })}

@@ -10,11 +10,25 @@ import jwt from "jsonwebtoken";
 
 export default function BookingCard(props) {
   const navigate = useNavigate();
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
   async function handleClick() {
+    if (props.linkto === "staff") {
+      if (!validateEmail(props.ptemail)) {
+        alert("Enter a valid email");
+        return;
+      }
+    }
     const token = localStorage.getItem("accessToken");
     const payload = token && jwt.decode(token);
     const patient = payload && payload.name;
-    const pemail = payload && payload.userType === "patient" && payload.email;
+    const pemail =
+      payload && payload.userType === "patient" ? payload.email : props.ptemail;
     const d = new Date(props.date);
     const months = [
       "Jan",

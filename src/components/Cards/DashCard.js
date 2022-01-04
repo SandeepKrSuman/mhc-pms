@@ -5,9 +5,12 @@ import Typography from "@mui/material/Typography";
 import { useNavigate, useLocation, createSearchParams } from "react-router-dom";
 import "./DashCard.css";
 import { PaymentContext } from "../Dashboards/PatientDash/Tabs/MakePayment";
+import { StaffPaymentContext } from "../Dashboards/StaffDash/Tabs/MakePayment";
 
 export default function DashCard(props) {
-  const payment = React.useContext(PaymentContext);
+  const payment = React.useContext(
+    props.from === "staff" ? StaffPaymentContext : PaymentContext
+  );
   let navigate = useNavigate();
   const { pathname } = useLocation();
   const srch =

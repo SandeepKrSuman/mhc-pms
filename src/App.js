@@ -20,6 +20,7 @@ import UpiPaymentPatient from "./components/Dashboards/PatientDash/Tabs/UpiPayme
 import Prescriptions from "./components/Dashboards/PatientDash/Tabs/Prescriptions";
 import Feedback from "./components/Dashboards/PatientDash/Tabs/Feedback";
 import StaffDash from "./components/Dashboards/StaffDash/StaffDash";
+import BookAppointmentStaff from "./components/Dashboards/StaffDash/Tabs/BookAppointment";
 import CancelAppointment from "./components/Dashboards/StaffDash/Tabs/CancelAppointment";
 import MakePaymentStaff from "./components/Dashboards/StaffDash/Tabs/MakePayment";
 import CardPaymentStaff from "./components/Dashboards/StaffDash/Tabs/CardPayment";
@@ -258,7 +259,7 @@ function App() {
               exact
               element={
                 <AuthContext.Provider value={{ setUserType }}>
-                  <BookAppointment linkto="staff" />
+                  <BookAppointmentStaff linkto="staff" />
                 </AuthContext.Provider>
               }
             />

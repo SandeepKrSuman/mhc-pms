@@ -32,7 +32,7 @@ function UpiPay() {
   }
 
   function handleClick() {
-    navigate("/dashboard/patient");
+    navigate("/signin");
   }
 
   return (

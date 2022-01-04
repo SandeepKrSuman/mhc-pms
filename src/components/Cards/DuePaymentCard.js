@@ -12,7 +12,7 @@ export default function AppointmentCard(props) {
   const navigate = useNavigate();
   function handlePayNow() {
     navigate({
-      pathname: `/dashboard/patient/make-payment`,
+      pathname: `/dashboard/${props.caller}/make-payment`,
       search: `?${createSearchParams({
         pemail: props.pemail,
         demail: props.demail,
@@ -77,7 +77,7 @@ export default function AppointmentCard(props) {
             fontStyle: "italic",
           }}
         >
-          *Make payment to confirm your appointment
+          *Make payment to confirm appointment
         </span>
       </CardContent>
     </Card>
