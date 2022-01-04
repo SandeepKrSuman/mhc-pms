@@ -4,7 +4,9 @@ import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import ContactlessIcon from "@mui/icons-material/Contactless";
+import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
 import { useNavigate, createSearchParams } from "react-router-dom";
+import api from "../../api";
 
 export default function AppointmentCard(props) {
   const navigate = useNavigate();
@@ -17,6 +19,23 @@ export default function AppointmentCard(props) {
         doa: props.doa,
       })}`,
     });
+  }
+
+  async function handleCancel() {
+    try {
+      const res = await api.cancelAppointment({
+        data: { pemail: props.pemail, demail: props.demail, doa: props.doa },
+      });
+      if (res.data.error) {
+        alert(res.data.erroMsg);
+      } else {
+        alert(res.data.msg);
+        window.location.reload();
+      }
+    } catch (error) {
+      alert(error.response.data.errorMsg);
+      console.log(error);
+    }
   }
 
   return (
@@ -36,22 +55,30 @@ export default function AppointmentCard(props) {
         <CardActions disableSpacing>
           <Button
             variant="contained"
-            color="error"
+            color="primary"
             endIcon={<ContactlessIcon />}
             onClick={handlePayNow}
           >
             Pay Now
           </Button>
-          <span
-            style={{
-              marginLeft: "auto",
-              fontSize: "0.7rem",
-              fontStyle: "italic",
-            }}
+          <Button
+            variant="contained"
+            color="error"
+            startIcon={<DoNotDisturbIcon />}
+            sx={{ marginLeft: "auto" }}
+            onClick={handleCancel}
           >
-            *Make payment to confirm your appointment
-          </span>
+            Cancel
+          </Button>
         </CardActions>
+        <span
+          style={{
+            fontSize: "0.7rem",
+            fontStyle: "italic",
+          }}
+        >
+          *Make payment to confirm your appointment
+        </span>
       </CardContent>
     </Card>
   );
