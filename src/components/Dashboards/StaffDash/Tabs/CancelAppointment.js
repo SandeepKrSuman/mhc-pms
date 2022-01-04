@@ -7,26 +7,47 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-
-//search appointment using unique id and store in below array
-const appointments = [
-  { doc: "Dr. S. Bakshi", date: "12/08/2021" },
-  { doc: "Dr. S. Dey", date: "12/10/2021" },
-  { doc: "Dr. S. Santra", date: "12/20/2021" },
-];
+import api from "../../../../api";
 
 function CancelAppointment() {
+  const [appointments, setAppointments] = useState([]);
   const [searched, setSearched] = useState(false);
   const [email, setEmail] = useState("");
+
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
+  async function fetchAppointments() {
+    if (!validateEmail(email)) {
+      alert("Enter a valid email!");
+      return;
+    }
+    try {
+      const ptemail = email;
+      const res = await api.myAppointments();
+      if (res.data.error) {
+        alert(res.data.errorMsg);
+      } else {
+        const appoints = res.data.filter(
+          (appoint) => appoint.pemail === ptemail
+        );
+        setAppointments(appoints);
+        setSearched(true);
+      }
+    } catch (error) {
+      alert(error.response.data.errorMsg);
+      console.log(error);
+    }
+  }
 
   function handleChange(event) {
     const e = event.target.value;
     setEmail(e);
-  }
-
-  function handleSearch() {
-    // search the email in db and return the appointmet list
-    setSearched(true);
   }
 
   if (!searched) {
@@ -42,7 +63,7 @@ function CancelAppointment() {
           >
             <TextField
               id="outlined-basic"
-              label="Enter Email ID"
+              label="Patient's Email Id"
               type="email"
               value={email}
               onChange={handleChange}
@@ -50,7 +71,7 @@ function CancelAppointment() {
               autoComplete="off"
               sx={{ width: "90%" }}
             />
-            <Button onClick={handleSearch} variant="outlined">
+            <Button onClick={fetchAppointments} variant="outlined">
               Search
             </Button>
           </Stack>
@@ -68,8 +89,11 @@ function CancelAppointment() {
                 return (
                   <Grid key={index} item xs={12}>
                     <AppointmentCard
-                      doc={appointment.doc}
+                      doc={appointment.doctor}
                       date={appointment.date}
+                      pemail={appointment.pemail}
+                      demail={appointment.demail}
+                      doa={appointment.doa}
                     />
                   </Grid>
                 );
