@@ -24,6 +24,15 @@ export default function AppointmentCard(props) {
     }
   }
 
+  const dateInPast = () => {
+    const firstDate = new Date(parseInt(props.doa));
+    const secondDate = new Date();
+    if (firstDate.setHours(0, 0, 0, 0) <= secondDate.setHours(0, 0, 0, 0)) {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <Card sx={{ maxWidth: "100%", textAlign: "center" }} variant="outlined">
       <CardContent>
@@ -44,6 +53,7 @@ export default function AppointmentCard(props) {
             color="error"
             endIcon={<CancelIcon />}
             onClick={handleCancel}
+            disabled={dateInPast() ? true : false}
           >
             Cancel
           </Button>
