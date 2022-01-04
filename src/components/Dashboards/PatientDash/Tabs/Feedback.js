@@ -11,6 +11,13 @@ function Feedback() {
   const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
+    const dateInPast = (firstDate, secondDate) => {
+      if (firstDate.setHours(0, 0, 0, 0) <= secondDate.setHours(0, 0, 0, 0)) {
+        return true;
+      }
+      return false;
+    };
+
     async function fetchAppointments() {
       try {
         const token = localStorage.getItem("accessToken");
@@ -21,7 +28,9 @@ function Feedback() {
           alert(res.data.errorMsg);
         } else {
           const appoints = res.data.filter(
-            (appoint) => appoint.pemail === ptemail
+            (appoint) =>
+              appoint.pemail === ptemail &&
+              dateInPast(new Date(parseInt(appoint.doa)), new Date())
           );
           setAppointments(appoints);
         }
