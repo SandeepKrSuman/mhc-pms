@@ -121,6 +121,10 @@ const api = {
   deleteFeedback: (body) => {
     return axios.post(`${baseUrl}/patient/feedback/delete`, body);
   },
+
+  uploadPrescription: (body) => {
+    return axios.post(`${baseUrl}/doctor/prescription/upload`, body);
+  },
 };
 
 export default api;

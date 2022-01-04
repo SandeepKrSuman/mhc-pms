@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import PublishIcon from "@mui/icons-material/Publish";
 import FormGroup from "@mui/material/FormGroup";
 import Typography from "@mui/material/Typography";
+import api from "../../api";
 
 const Input = styled("input")({
   display: "none",
@@ -24,9 +25,23 @@ export default function FileUploader(props) {
     setFileName(fname);
   }
 
-  function handleSubmit() {
-    console.log(`submitted file: ${fileName}`);
-    setFileName(null);
+  async function handleSubmit() {
+    try {
+      const res = await api.uploadPrescription({
+        pemail: props.pemail,
+        demail: props.demail,
+        doa: props.doa,
+      });
+      if (res.data.error) {
+        alert(res.data.errorMsg);
+      } else {
+        alert(res.data.msg);
+        setFileName(null);
+      }
+    } catch (error) {
+      alert(error.response.data.errorMsg);
+      console.log(error);
+    }
   }
 
   return (

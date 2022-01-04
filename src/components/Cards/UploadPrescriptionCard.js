@@ -14,8 +14,16 @@ export default function UploadPrescriptionCard(props) {
         <Typography variant="h5" component="div">
           {props.patient}
         </Typography>
+        <Typography variant="caption" color="text.secondary" component="div">
+          {`appointment on: ${props.date}`}
+        </Typography>
         <br /> <br />
-        <FileUploader useKey={props.useKey} />
+        <FileUploader
+          useKey={props.useKey}
+          pemail={props.pemail}
+          demail={props.demail}
+          doa={props.doa}
+        />
       </CardContent>
     </Card>
   );

@@ -43,6 +43,7 @@ function Prescriptions() {
                   <PrescriptionCard
                     doc={prescription.doctor}
                     file_url={prescription.file}
+                    date={prescription.date}
                   />
                 </Grid>
               );

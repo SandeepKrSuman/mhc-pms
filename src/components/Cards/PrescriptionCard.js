@@ -15,6 +15,9 @@ export default function AppointmentCard(props) {
         <Typography variant="h5" component="div">
           {props.doc}
         </Typography>
+        <Typography variant="caption" color="text.secondary" component="div">
+          {`appointment on: ${props.date}`}
+        </Typography>
         <br /> <br />
         <Fab
           href={props.file_url}
