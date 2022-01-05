@@ -142,6 +142,7 @@ function AddNew() {
     });
     const postData = {
       docName: fullName,
+      email: email,
       degree: degree,
       wdays: wdstr,
       fee: parseInt(fee),
@@ -164,6 +165,7 @@ function AddNew() {
     }
 
     setFullName("");
+    setEmail("");
     setWeekDays({
       Sun: { checked: false, value: null },
       Mon: { checked: false, value: null },
