@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:5000/api";
+const baseUrl = "https://mhc-pms-server.herokuapp.com/api";
 
 axios.interceptors.request.use(
   (config) => {
