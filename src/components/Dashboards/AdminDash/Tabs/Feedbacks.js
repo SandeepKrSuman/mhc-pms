@@ -2,23 +2,30 @@ import { Fragment, useEffect, useState } from "react";
 import ViewFeedbackCard from "../../../Cards/ViewFeedbackCard";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import DashBar from "../../../DashBar/DashBar";
 import api from "../../../../api";
 import Typography from "@mui/material/Typography";
 
 function Feedbacks() {
+  const [openBackdrop, setOpenBackdrop] = useState(false);
   const [pf, setPf] = useState([]);
 
   useEffect(() => {
     async function fetchFeedbacks() {
+      setOpenBackdrop(true);
       try {
         const res = await api.patientFeedbacks();
         if (res.data.error) {
+          setOpenBackdrop(false);
           alert(res.data.errorMsg);
         } else {
+          setOpenBackdrop(false);
           setPf(res.data);
         }
       } catch (error) {
+        setOpenBackdrop(false);
         alert(error.response.data.errorMsg);
         console.log(error);
       }
@@ -47,6 +54,12 @@ function Feedbacks() {
             })}
           </Grid>
         </Container>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={openBackdrop}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </Fragment>
     );
   } else {
@@ -63,6 +76,12 @@ function Feedbacks() {
             **Nothing here. Feedback list empty.**
           </Typography>
         </Container>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={openBackdrop}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </Fragment>
     );
   }

@@ -3,21 +3,28 @@ import Container from "@mui/material/Container";
 import DashBar from "../../../DashBar/DashBar";
 import VerifyCard from "../../../Cards/VerifyCard";
 import Grid from "@mui/material/Grid";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import api from "../../../../api";
 
 function VerifySignUp() {
+  const [openBackdrop, setOpenBackdrop] = useState(false);
   const [unvUsers, setUnvUsers] = useState([]);
 
   useEffect(() => {
     async function fetchUnverified() {
+      setOpenBackdrop(true);
       try {
         const res = await api.unverified();
         if (res.data.error) {
+          setOpenBackdrop(false);
           alert(res.data.error);
         } else {
+          setOpenBackdrop(false);
           setUnvUsers(res.data);
         }
       } catch (error) {
+        setOpenBackdrop(false);
         alert(error.response.data.errorMsg);
         console.log(error);
       }
@@ -50,6 +57,12 @@ function VerifySignUp() {
             })}
         </Grid>
       </Container>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openBackdrop}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Fragment>
   );
 }

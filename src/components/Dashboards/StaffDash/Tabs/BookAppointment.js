@@ -8,16 +8,21 @@ import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import api from "../../../../api";
 import Box from "@mui/material/Box";
 
 function BookAppointmentStaff(props) {
   const [bookingList, setBookingList] = useState([]);
   const [ptemail, setPtemail] = useState("");
+  const [openBackdrop, setOpenBackdrop] = useState(false);
 
   useEffect(() => {
     async function fetchDocList() {
+      setOpenBackdrop(true);
       const res = await api.docList();
+      setOpenBackdrop(false);
       setBookingList(res.data);
     }
     fetchDocList();
@@ -104,6 +109,12 @@ function BookAppointmentStaff(props) {
           only.**
         </Typography>
       </Container>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openBackdrop}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Fragment>
   );
 }

@@ -11,6 +11,8 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import { Link, useSearchParams } from "react-router-dom";
 import api from "../../api";
 import "./SignIn.css";
@@ -28,6 +30,7 @@ export default function SignIn() {
   const sparam = searchParams.get("new");
   const [succOpen, setSuccOpen] = React.useState(sparam ? true : false);
   const [errOpen, setErrOpen] = React.useState(false);
+  const [openBackdrop, setOpenBackdrop] = React.useState(false);
   const [errorMsg, setErrorMsg] = React.useState(
     "An Error Occured. Try again later."
   );
@@ -62,6 +65,7 @@ export default function SignIn() {
   };
 
   const handleSubmit = async (event) => {
+    setOpenBackdrop(true);
     event.preventDefault();
     const postData = {
       email: email,
@@ -71,6 +75,7 @@ export default function SignIn() {
     try {
       const res = await api.signin(postData);
       if (res.data.error) {
+        setOpenBackdrop(false);
         setErrorMsg(res.data.errorMsg);
         setErrOpen(true);
       } else {
@@ -78,9 +83,11 @@ export default function SignIn() {
         const { accessToken, refreshToken } = res.data;
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
+        setOpenBackdrop(false);
         auth.setUserType(loggedUser);
       }
     } catch (error) {
+      setOpenBackdrop(false);
       setErrorMsg(error.response.data.errorMsg);
       setErrOpen(true);
       console.error(error);
@@ -183,6 +190,12 @@ export default function SignIn() {
           {errorMsg}
         </Alert>
       </Snackbar>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openBackdrop}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </ThemeProvider>
   );
 }

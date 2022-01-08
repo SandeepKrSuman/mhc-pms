@@ -5,22 +5,29 @@ import DocListCard from "../../../Cards/DocListCard";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import { Link } from "react-router-dom";
 import api from "../../../../api";
 
 function DocList() {
+  const [openBackdrop, setOpenBackdrop] = useState(false);
   const [docs, setDocs] = useState([]);
 
   useEffect(() => {
     async function fetchDocList() {
+      setOpenBackdrop(true);
       try {
         const res = await api.docList();
         if (res.data.error) {
+          setOpenBackdrop(false);
           alert(res.data.errorMsg);
         } else {
+          setOpenBackdrop(false);
           setDocs(res.data);
         }
       } catch (error) {
+        setOpenBackdrop(false);
         alert(error.response.data.errorMsg);
         console.log(error);
       }
@@ -58,6 +65,12 @@ function DocList() {
             })}
         </Grid>
       </Container>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openBackdrop}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Fragment>
   );
 }

@@ -1,12 +1,13 @@
 import { useState, useRef } from "react";
 import Button from "@mui/material/Button";
-import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
 import Fab from "@mui/material/Fab";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import Card from "react-credit-cards";
 import {
   formatCreditCardNumber,
@@ -20,6 +21,7 @@ import api from "../../../api";
 import { useSearchParams, useNavigate } from "react-router-dom";
 
 function CardPay() {
+  const [openBackdrop, setOpenBackdrop] = useState(false);
   const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();
@@ -74,15 +76,19 @@ function CardPay() {
   };
 
   const handleSubmit = async (e) => {
+    setOpenBackdrop(true);
     e.preventDefault();
     try {
       const res = await api.makePayment({ pemail, demail, doa });
       if (res.data.error) {
+        setOpenBackdrop(false);
         alert(res.data.errorMsg);
       } else {
+        setOpenBackdrop(false);
         alert(res.data.msg);
       }
     } catch (error) {
+      setOpenBackdrop(false);
       alert(error.response.data.errorMsg);
       console.error(error);
     }
@@ -198,6 +204,12 @@ function CardPay() {
           </Box>
         </Fade>
       </Modal>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openBackdrop}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </>
   );
 }

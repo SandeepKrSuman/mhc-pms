@@ -8,12 +8,15 @@ import api from "../../../../api";
 import jwt from "jsonwebtoken";
 import DuePaymentCard from "../../../Cards/DuePaymentCard";
 import Typography from "@mui/material/Typography";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export const PaymentContext = React.createContext();
 
 const cardTitles = ["Card Payment", "UPI Payment"];
 
 function MakePaymentPatinet() {
+  const [openBackdrop, setOpenBackdrop] = useState(false);
   const [dues, setDues] = useState([]);
 
   const [searchParams] = useSearchParams();
@@ -23,18 +26,22 @@ function MakePaymentPatinet() {
 
   useEffect(() => {
     async function fetchUnpaid() {
+      setOpenBackdrop(true);
       try {
         const token = localStorage.getItem("accessToken");
         const payload = token && jwt.decode(token);
         const ptemail = payload.userType === "patient" && payload.email;
         const res = await api.duePayment();
         if (res.data.error) {
+          setOpenBackdrop(false);
           alert(res.data.errorMsg);
         } else {
+          setOpenBackdrop(false);
           const myUnpaid = res.data.filter((unp) => unp.pemail === ptemail);
           setDues(myUnpaid);
         }
       } catch (error) {
+        setOpenBackdrop(false);
         alert(error.response.data.errorMsg);
         console.log(error);
       }
@@ -44,9 +51,17 @@ function MakePaymentPatinet() {
 
   if (pemail && demail && doa) {
     return (
-      <PaymentContext.Provider value={{ pemail, demail, doa }}>
-        <Dashboard cards={cardTitles} lgspace={6} />
-      </PaymentContext.Provider>
+      <Fragment>
+        <PaymentContext.Provider value={{ pemail, demail, doa }}>
+          <Dashboard cards={cardTitles} lgspace={6} />
+        </PaymentContext.Provider>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={openBackdrop}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      </Fragment>
     );
   } else {
     if (dues.length > 0) {
@@ -72,6 +87,12 @@ function MakePaymentPatinet() {
               })}
             </Grid>
           </Container>
+          <Backdrop
+            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={openBackdrop}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
         </Fragment>
       );
     } else {
@@ -88,6 +109,12 @@ function MakePaymentPatinet() {
               **All clear here. None of your payment is due.**
             </Typography>
           </Container>
+          <Backdrop
+            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={openBackdrop}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
         </Fragment>
       );
     }

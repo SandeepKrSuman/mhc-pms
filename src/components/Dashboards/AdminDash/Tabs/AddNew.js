@@ -4,6 +4,8 @@ import DashBar from "../../../DashBar/DashBar";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import { useSearchParams } from "react-router-dom";
 import "./AddNew.css";
 import api from "../../../../api";
@@ -13,6 +15,7 @@ const Alert = forwardRef(function Alert(props, ref) {
 });
 
 function AddNew() {
+  const [openBackdrop, setOpenBackdrop] = useState(false);
   const [searchParams] = useSearchParams();
   const nm = searchParams.get("name");
   const dg = searchParams.get("degree");
@@ -130,6 +133,7 @@ function AddNew() {
   }
 
   async function handleSubmit(e) {
+    setOpenBackdrop(true);
     e.preventDefault();
     const wds = Object.keys(weekDays);
     const trueWds = wds.filter((key) => {
@@ -152,18 +156,21 @@ function AddNew() {
     try {
       const res = await api.addNew(postData);
       if (res.data.error) {
+        setOpenBackdrop(false);
         setErrorMessage(res.data.erroMsg);
         setErrOpen(true);
       } else {
+        setOpenBackdrop(false);
         setSuccessMessage(res.data.msg);
         setSuccOpen(true);
       }
     } catch (error) {
+      setOpenBackdrop(false);
       setErrorMessage(error.response.data.errorMsg);
       setErrOpen(true);
       console.log(error);
     }
-
+    setOpenBackdrop(false);
     setFullName("");
     setEmail("");
     setWeekDays({
@@ -394,6 +401,12 @@ function AddNew() {
           {errorMessage}
         </Alert>
       </Snackbar>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openBackdrop}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Fragment>
   );
 }

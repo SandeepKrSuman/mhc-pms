@@ -14,6 +14,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import { Link, createSearchParams, useNavigate } from "react-router-dom";
 import "./SignUp.css";
 
@@ -38,6 +40,7 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
 
   const [errOpen, setErrOpen] = useState(false);
+  const [openBackdrop, setOpenBackdrop] = useState(false);
   const [errorMsg, setErrorMsg] = useState(
     "An Error Occured. Try again later."
   );
@@ -71,6 +74,7 @@ export default function SignUp() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setOpenBackdrop(true);
 
     const verified = user === "patient" ? true : false;
     const deg = user === "doctor" ? degree : "N/A";
@@ -88,25 +92,30 @@ export default function SignUp() {
     try {
       const res = await api.signup(postData);
       if (res.data.error) {
+        setOpenBackdrop(false);
         setErrorMsg(res.data.errorMsg);
         setErrOpen(true);
         setUser("patient");
         setFname("");
         setLname("");
+        setDegree("");
         setEmail("");
         setPassword("");
       } else {
+        setOpenBackdrop(false);
         navigate({
           pathname: "/signin",
           search: `?${createSearchParams({ new: true })}`,
         });
       }
     } catch (error) {
+      setOpenBackdrop(false);
       setErrorMsg(error.response.data.errorMsg);
       setErrOpen(true);
       setUser("patient");
       setFname("");
       setLname("");
+      setDegree("");
       setEmail("");
       setPassword("");
       console.error(error);
@@ -251,6 +260,12 @@ export default function SignUp() {
           {errorMsg}
         </Alert>
       </Snackbar>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openBackdrop}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </ThemeProvider>
   );
 }

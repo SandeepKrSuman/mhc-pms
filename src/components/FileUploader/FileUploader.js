@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import PublishIcon from "@mui/icons-material/Publish";
 import FormGroup from "@mui/material/FormGroup";
 import Typography from "@mui/material/Typography";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import api from "../../api";
 
 const Input = styled("input")({
@@ -18,6 +20,7 @@ const useStyle = {
 };
 
 export default function FileUploader(props) {
+  const [openBackdrop, setOpenBackdrop] = useState(false);
   const [fileName, setFileName] = useState(null);
 
   function handleChange(e) {
@@ -26,6 +29,7 @@ export default function FileUploader(props) {
   }
 
   async function handleSubmit() {
+    setOpenBackdrop(true);
     try {
       const res = await api.uploadPrescription({
         pemail: props.pemail,
@@ -33,53 +37,64 @@ export default function FileUploader(props) {
         doa: props.doa,
       });
       if (res.data.error) {
+        setOpenBackdrop(false);
         alert(res.data.errorMsg);
       } else {
+        setOpenBackdrop(false);
         alert(res.data.msg);
         setFileName(null);
       }
     } catch (error) {
+      setOpenBackdrop(false);
       alert(error.response.data.errorMsg);
       console.log(error);
     }
   }
 
   return (
-    <FormGroup>
-      <label htmlFor={`file-uploader-${props.useKey}`}>
-        <Input
-          onChange={handleChange}
-          accept="image/*, application/pdf"
-          id={`file-uploader-${props.useKey}`}
-          type="file"
-        />
-        <Button
-          style={useStyle}
-          variant="outlined"
-          component="span"
-          startIcon={<PublishIcon />}
+    <Fragment>
+      <FormGroup>
+        <label htmlFor={`file-uploader-${props.useKey}`}>
+          <Input
+            onChange={handleChange}
+            accept="image/*, application/pdf"
+            id={`file-uploader-${props.useKey}`}
+            type="file"
+          />
+          <Button
+            style={useStyle}
+            variant="outlined"
+            component="span"
+            startIcon={<PublishIcon />}
+          >
+            Upload
+          </Button>
+        </label>
+        <br />
+        <Typography
+          sx={{ textAlign: "center" }}
+          variant="caption"
+          color="green"
+          display="block"
+          gutterBottom
         >
-          Upload
+          {fileName}
+        </Typography>
+        <br />
+        <Button
+          disabled={fileName ? false : true}
+          onClick={handleSubmit}
+          variant="contained"
+        >
+          Submit
         </Button>
-      </label>
-      <br />
-      <Typography
-        sx={{ textAlign: "center" }}
-        variant="caption"
-        color="green"
-        display="block"
-        gutterBottom
+      </FormGroup>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openBackdrop}
       >
-        {fileName}
-      </Typography>
-      <br />
-      <Button
-        disabled={fileName ? false : true}
-        onClick={handleSubmit}
-        variant="contained"
-      >
-        Submit
-      </Button>
-    </FormGroup>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    </Fragment>
   );
 }

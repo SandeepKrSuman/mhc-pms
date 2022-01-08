@@ -7,9 +7,12 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import api from "../../../../api";
 
 function CancelAppointment() {
+  const [openBackdrop, setOpenBackdrop] = useState(false);
   const [appointments, setAppointments] = useState([]);
   const [searched, setSearched] = useState(false);
   const [email, setEmail] = useState("");
@@ -23,7 +26,9 @@ function CancelAppointment() {
   };
 
   async function fetchAppointments() {
+    setOpenBackdrop(true);
     if (!validateEmail(email)) {
+      setOpenBackdrop(false);
       alert("Enter a valid email!");
       return;
     }
@@ -31,8 +36,10 @@ function CancelAppointment() {
       const ptemail = email;
       const res = await api.myAppointments();
       if (res.data.error) {
+        setOpenBackdrop(false);
         alert(res.data.errorMsg);
       } else {
+        setOpenBackdrop(false);
         const appoints = res.data.filter(
           (appoint) => appoint.pemail === ptemail
         );
@@ -40,6 +47,7 @@ function CancelAppointment() {
         setSearched(true);
       }
     } catch (error) {
+      setOpenBackdrop(false);
       alert(error.response.data.errorMsg);
       console.log(error);
     }
@@ -76,6 +84,12 @@ function CancelAppointment() {
             </Button>
           </Stack>
         </Container>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={openBackdrop}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </Fragment>
     );
   } else if (searched) {
@@ -100,6 +114,12 @@ function CancelAppointment() {
               })}
             </Grid>
           </Container>
+          <Backdrop
+            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={openBackdrop}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
         </Fragment>
       );
     } else {
@@ -116,6 +136,12 @@ function CancelAppointment() {
               **Patient does NOT seem to have any appointment.**
             </Typography>
           </Container>
+          <Backdrop
+            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={openBackdrop}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
         </Fragment>
       );
     }

@@ -6,9 +6,12 @@ import DashBar from "../../../DashBar/DashBar";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import FeedbackIcon from "@mui/icons-material/Feedback";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import api from "../../../../api";
 
 function GenerateStats() {
+  const [openBackdrop, setOpenBackdrop] = useState(false);
   const [mrd, setMrd] = useState("");
   const [nop, setNop] = useState(null);
   const [dmwd, setDmwd] = useState("");
@@ -17,11 +20,14 @@ function GenerateStats() {
 
   useEffect(() => {
     async function fetchStats() {
+      setOpenBackdrop(true);
       try {
         const res = await api.generateStats();
         if (res.data.error) {
+          setOpenBackdrop(false);
           alert(res.data.errorMsg);
         } else {
+          setOpenBackdrop(false);
           setMrd(res.data.mrd);
           setNop(res.data.nop);
           setDmwd(res.data.dmwd);
@@ -29,6 +35,7 @@ function GenerateStats() {
           setNod(res.data.nod);
         }
       } catch (error) {
+        setOpenBackdrop(false);
         alert(error.response.data.errorMsg);
         console.log(error);
       }
@@ -75,6 +82,12 @@ function GenerateStats() {
           </Grid>
         </Grid>
       </Container>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openBackdrop}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Fragment>
   );
 }

@@ -4,28 +4,35 @@ import DashBar from "../../../DashBar/DashBar";
 import DocAppointmentCard from "../../../Cards/DocAppointmentCard";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import jwt from "jsonwebtoken";
 import api from "../../../../api";
 
 function Appointments() {
+  const [openBackdrop, setOpenBackdrop] = useState(false);
   const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
     async function fetchAppointments() {
+      setOpenBackdrop(true);
       try {
         const token = localStorage.getItem("accessToken");
         const payload = token && jwt.decode(token);
         const demail = payload.userType === "doctor" && payload.email;
         const res = await api.myAppointments();
         if (res.data.error) {
+          setOpenBackdrop(false);
           alert(res.data.errorMsg);
         } else {
+          setOpenBackdrop(false);
           const appoints = res.data.filter(
             (appoint) => appoint.demail === demail
           );
           setAppointments(appoints);
         }
       } catch (error) {
+        setOpenBackdrop(false);
         alert(error.response.data.errorMsg);
         console.log(error);
       }
@@ -51,6 +58,12 @@ function Appointments() {
             })}
           </Grid>
         </Container>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={openBackdrop}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </Fragment>
     );
   } else {
@@ -67,6 +80,12 @@ function Appointments() {
             **No upcoming appointments.**
           </Typography>
         </Container>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={openBackdrop}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </Fragment>
     );
   }

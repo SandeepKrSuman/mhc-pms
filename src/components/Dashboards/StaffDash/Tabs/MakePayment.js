@@ -10,12 +10,15 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export const StaffPaymentContext = React.createContext();
 
 const cardTitles = ["Card Payment", "UPI Payment", "Cash Payment"];
 
 function MakePaymentStaff() {
+  const [openBackdrop, setOpenBackdrop] = useState(false);
   const [dues, setDues] = useState([]);
   const [searched, setSearched] = useState(false);
   const [email, setEmail] = useState("");
@@ -34,7 +37,9 @@ function MakePaymentStaff() {
   };
 
   async function fetchUnpaid() {
+    setOpenBackdrop(true);
     if (!validateEmail(email)) {
+      setOpenBackdrop(false);
       alert("Enter a valid Email.");
       return;
     }
@@ -42,13 +47,16 @@ function MakePaymentStaff() {
       const ptemail = email;
       const res = await api.duePayment();
       if (res.data.error) {
+        setOpenBackdrop(false);
         alert(res.data.errorMsg);
       } else {
+        setOpenBackdrop(false);
         const unpaids = res.data.filter((unp) => unp.pemail === ptemail);
         setDues(unpaids);
         setSearched(true);
       }
     } catch (error) {
+      setOpenBackdrop(false);
       alert(error.response.data.errorMsg);
       console.log(error);
     }
@@ -60,9 +68,17 @@ function MakePaymentStaff() {
 
   if (pemail && demail && doa) {
     return (
-      <StaffPaymentContext.Provider value={{ pemail, demail, doa }}>
-        <Dashboard cards={cardTitles} lgspace={4} from="staff" />
-      </StaffPaymentContext.Provider>
+      <Fragment>
+        <StaffPaymentContext.Provider value={{ pemail, demail, doa }}>
+          <Dashboard cards={cardTitles} lgspace={4} from="staff" />
+        </StaffPaymentContext.Provider>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={openBackdrop}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      </Fragment>
     );
   } else {
     if (searched) {
@@ -89,6 +105,12 @@ function MakePaymentStaff() {
                 })}
               </Grid>
             </Container>
+            <Backdrop
+              sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              open={openBackdrop}
+            >
+              <CircularProgress color="inherit" />
+            </Backdrop>
           </Fragment>
         );
       } else {
@@ -105,6 +127,12 @@ function MakePaymentStaff() {
                 **This patient don't have any outstanding payment.**
               </Typography>
             </Container>
+            <Backdrop
+              sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              open={openBackdrop}
+            >
+              <CircularProgress color="inherit" />
+            </Backdrop>
           </Fragment>
         );
       }
@@ -134,6 +162,12 @@ function MakePaymentStaff() {
               </Button>
             </Stack>
           </Container>
+          <Backdrop
+            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={openBackdrop}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
         </Fragment>
       );
     }

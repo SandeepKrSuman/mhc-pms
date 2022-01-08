@@ -5,25 +5,32 @@ import DashBar from "../../../DashBar/DashBar";
 import PrescriptionCard from "../../../Cards/PrescriptionCard";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import api from "../../../../api";
 
 function Prescriptions() {
   const [prs, setPrs] = useState([]);
+  const [openBackdrop, setOpenBackdrop] = useState(false);
 
   useEffect(() => {
     async function fetchPrescriptions() {
+      setOpenBackdrop(true);
       try {
         const token = localStorage.getItem("accessToken");
         const payload = token && jwt.decode(token);
         const ptemail = payload.userType === "patient" && payload.email;
         const res = await api.prescriptions();
         if (res.data.error) {
+          setOpenBackdrop(false);
           alert(res.data.errorMsg);
         } else {
+          setOpenBackdrop(false);
           const prescs = res.data.filter((presc) => presc.pemail === ptemail);
           setPrs(prescs);
         }
       } catch (error) {
+        setOpenBackdrop(false);
         alert(error.response.data.errorMsg);
         console.log(error);
       }
@@ -50,6 +57,12 @@ function Prescriptions() {
             })}
           </Grid>
         </Container>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={openBackdrop}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </Fragment>
     );
   } else {
@@ -66,6 +79,12 @@ function Prescriptions() {
             **You have not been prescribed yet.**
           </Typography>
         </Container>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={openBackdrop}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </Fragment>
     );
   }
