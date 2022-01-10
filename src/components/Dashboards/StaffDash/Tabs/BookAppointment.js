@@ -17,6 +17,7 @@ function BookAppointmentStaff(props) {
   const [bookingList, setBookingList] = useState([]);
   const [ptemail, setPtemail] = useState("");
   const [openBackdrop, setOpenBackdrop] = useState(false);
+  const [noteMsg, setNoteMsg] = useState("");
 
   useEffect(() => {
     async function fetchDocList() {
@@ -24,6 +25,9 @@ function BookAppointmentStaff(props) {
       const res = await api.docList();
       setOpenBackdrop(false);
       setBookingList(res.data);
+      setNoteMsg(
+        "**The data shown above are not real and are indicated for demo purpose only.**"
+      );
     }
     fetchDocList();
   }, []);
@@ -105,8 +109,7 @@ function BookAppointmentStaff(props) {
             })}
         </Grid>
         <Typography variant="caption" gutterBottom component="div">
-          **The data shown above are not real and are indicated for demo purpose
-          only.**
+          {noteMsg}
         </Typography>
       </Container>
       <Backdrop

@@ -15,6 +15,7 @@ import api from "../../../../api";
 function BookAppointment(props) {
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [bookingList, setBookingList] = useState([]);
+  const [noteMsg, setNoteMsg] = useState("");
 
   useEffect(() => {
     async function fetchDocList() {
@@ -22,6 +23,9 @@ function BookAppointment(props) {
       const res = await api.docList();
       setOpenBackdrop(false);
       setBookingList(res.data);
+      setNoteMsg(
+        "**The data shown above are not real and are indicated for demo purpose only.**"
+      );
     }
     fetchDocList();
   }, []);
@@ -83,8 +87,7 @@ function BookAppointment(props) {
             })}
         </Grid>
         <Typography variant="caption" gutterBottom component="div">
-          **The data shown above are not real and are indicated for demo purpose
-          only.**
+          {noteMsg}
         </Typography>
       </Container>
       <Backdrop
