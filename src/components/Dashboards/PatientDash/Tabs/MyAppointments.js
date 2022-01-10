@@ -12,6 +12,7 @@ import api from "../../../../api";
 function MyAppointments() {
   const [appointments, setAppointments] = useState([]);
   const [openBackdrop, setOpenBackdrop] = useState(false);
+  const [defMsg, setDefMsg] = useState("");
 
   useEffect(() => {
     async function fetchAppointments() {
@@ -30,6 +31,10 @@ function MyAppointments() {
             (appoint) => appoint.pemail === ptemail
           );
           setAppointments(appoints);
+          setDefMsg(
+            appoints.length === 0 &&
+              "**You have not booked any appointment yet.**"
+          );
         }
       } catch (error) {
         setOpenBackdrop(false);
@@ -80,7 +85,7 @@ function MyAppointments() {
             gutterBottom
             component="div"
           >
-            **You have not booked any appointment yet.**
+            {defMsg}
           </Typography>
         </Container>
         <Backdrop

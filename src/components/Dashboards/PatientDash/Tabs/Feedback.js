@@ -12,6 +12,7 @@ import api from "../../../../api";
 function Feedback() {
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [appointments, setAppointments] = useState([]);
+  const [defMsg, setDefMsg] = useState("");
 
   useEffect(() => {
     const dateInPast = (firstDate, secondDate) => {
@@ -39,6 +40,10 @@ function Feedback() {
               dateInPast(new Date(parseInt(appoint.doa)), new Date())
           );
           setAppointments(appoints);
+          setDefMsg(
+            appoints.length === 0 &&
+              "**You have not booked any appointment yet.**"
+          );
         }
       } catch (error) {
         setOpenBackdrop(false);
@@ -92,7 +97,7 @@ function Feedback() {
             gutterBottom
             component="div"
           >
-            **You have not booked any appointment yet.**
+            {defMsg}
           </Typography>
         </Container>
         <Backdrop

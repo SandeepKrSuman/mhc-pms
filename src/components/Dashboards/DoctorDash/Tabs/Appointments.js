@@ -12,6 +12,7 @@ import api from "../../../../api";
 function Appointments() {
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [appointments, setAppointments] = useState([]);
+  const [defMsg, setDefMsg] = useState("");
 
   useEffect(() => {
     async function fetchAppointments() {
@@ -30,6 +31,7 @@ function Appointments() {
             (appoint) => appoint.demail === demail
           );
           setAppointments(appoints);
+          setDefMsg(appoints.length === 0 && "No upcoming appointments!");
         }
       } catch (error) {
         setOpenBackdrop(false);
@@ -77,7 +79,7 @@ function Appointments() {
             gutterBottom
             component="div"
           >
-            **No upcoming appointments.**
+            {defMsg}
           </Typography>
         </Container>
         <Backdrop

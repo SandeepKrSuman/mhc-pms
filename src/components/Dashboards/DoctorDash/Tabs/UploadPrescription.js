@@ -12,6 +12,7 @@ import api from "../../../../api";
 function UploadPrescription() {
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [appointments, setAppointments] = useState([]);
+  const [defMsg, setDefMsg] = useState("");
 
   useEffect(() => {
     async function fetchAppointments() {
@@ -31,6 +32,9 @@ function UploadPrescription() {
               appoint.demail === demail && appoint.prescribed === false
           );
           setAppointments(appoints);
+          setDefMsg(
+            appoints.length === 0 && "**No Appointment to prescribe.**"
+          );
         }
       } catch (error) {
         setOpenBackdrop(false);
@@ -82,7 +86,7 @@ function UploadPrescription() {
             gutterBottom
             component="div"
           >
-            **No Appointment to prescribe.**
+            {defMsg}
           </Typography>
         </Container>
         <Backdrop

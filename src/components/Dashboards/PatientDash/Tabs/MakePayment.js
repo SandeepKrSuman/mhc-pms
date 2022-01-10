@@ -18,6 +18,7 @@ const cardTitles = ["Card Payment", "UPI Payment"];
 function MakePaymentPatinet() {
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [dues, setDues] = useState([]);
+  const [defMsg, setDefMsg] = useState("");
 
   const [searchParams] = useSearchParams();
   const pemail = searchParams ? searchParams.get("pemail") : null;
@@ -39,6 +40,10 @@ function MakePaymentPatinet() {
           setOpenBackdrop(false);
           const myUnpaid = res.data.filter((unp) => unp.pemail === ptemail);
           setDues(myUnpaid);
+          setDefMsg(
+            myUnpaid.length === 0 &&
+              "**All clear here. None of your payment is due.**"
+          );
         }
       } catch (error) {
         setOpenBackdrop(false);
@@ -106,7 +111,7 @@ function MakePaymentPatinet() {
               gutterBottom
               component="div"
             >
-              **All clear here. None of your payment is due.**
+              {defMsg}
             </Typography>
           </Container>
           <Backdrop

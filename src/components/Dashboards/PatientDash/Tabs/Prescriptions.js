@@ -12,6 +12,7 @@ import api from "../../../../api";
 function Prescriptions() {
   const [prs, setPrs] = useState([]);
   const [openBackdrop, setOpenBackdrop] = useState(false);
+  const [defMsg, setDefMsg] = useState("");
 
   useEffect(() => {
     async function fetchPrescriptions() {
@@ -28,6 +29,9 @@ function Prescriptions() {
           setOpenBackdrop(false);
           const prescs = res.data.filter((presc) => presc.pemail === ptemail);
           setPrs(prescs);
+          setDefMsg(
+            prescs.length === 0 && "**You have not been prescribed yet.**"
+          );
         }
       } catch (error) {
         setOpenBackdrop(false);
@@ -76,7 +80,7 @@ function Prescriptions() {
             gutterBottom
             component="div"
           >
-            **You have not been prescribed yet.**
+            {defMsg}
           </Typography>
         </Container>
         <Backdrop
