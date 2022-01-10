@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -50,8 +50,6 @@ function CardPay() {
     textAlign: "center",
   };
 
-  let formRef = useRef(null);
-
   const handleCallback = (called, isValid) => {
     setIssuer(called.issuer);
   };
@@ -92,7 +90,10 @@ function CardPay() {
       alert(error.response.data.errorMsg);
       console.error(error);
     }
-    formRef.reset();
+    setNumber("");
+    setName("");
+    setExpiry("");
+    setCvc("");
     setOpen(true);
   };
 
@@ -113,15 +114,12 @@ function CardPay() {
             focused={focused}
             callback={handleCallback}
           />
-          <form
-            className="pay-form"
-            ref={(c) => (formRef = c)}
-            onSubmit={handleSubmit}
-          >
+          <form className="pay-form" onSubmit={handleSubmit}>
             <div className="form-group">
               <input
                 type="tel"
                 name="number"
+                value={number}
                 className="form-control"
                 placeholder="Card Number"
                 pattern="[\d| ]{16,22}"
@@ -134,6 +132,7 @@ function CardPay() {
               <input
                 type="text"
                 name="name"
+                value={name}
                 className="form-control"
                 placeholder="Name"
                 required
@@ -146,6 +145,7 @@ function CardPay() {
                 <input
                   type="tel"
                   name="expiry"
+                  value={expiry}
                   className="form-control"
                   placeholder="Valid Thru"
                   pattern="\d\d/\d\d"
@@ -158,6 +158,7 @@ function CardPay() {
                 <input
                   type="tel"
                   name="cvc"
+                  value={cvc}
                   className="form-control"
                   placeholder="CVC"
                   pattern="\d{3,4}"
