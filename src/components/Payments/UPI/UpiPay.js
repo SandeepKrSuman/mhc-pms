@@ -63,7 +63,7 @@ function UpiPay() {
         <br /> <br />
         {confirm ? (
           <Fab
-            href="/downloadFiles/invoice1000.pdf"
+            href="/downloadFiles/invoice-demo.pdf"
             download="mhc-pms-payment-invoice"
             color="primary"
             variant="extended"
