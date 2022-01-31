@@ -11,6 +11,7 @@ import Typography from "@mui/material/Typography";
 function Feedbacks() {
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [pf, setPf] = useState([]);
+  const [defMsg, setDefMsg] = useState("");
 
   useEffect(() => {
     async function fetchFeedbacks() {
@@ -23,6 +24,9 @@ function Feedbacks() {
         } else {
           setOpenBackdrop(false);
           setPf(res.data);
+          setDefMsg(
+            res.data.length === 0 && "**Nothing here. Feedback list empty.**"
+          );
         }
       } catch (error) {
         setOpenBackdrop(false);
@@ -73,7 +77,7 @@ function Feedbacks() {
             gutterBottom
             component="div"
           >
-            **Nothing here. Feedback list empty.**
+            {defMsg}
           </Typography>
         </Container>
         <Backdrop
