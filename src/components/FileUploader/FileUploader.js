@@ -22,11 +22,19 @@ const useStyle = {
 export default function FileUploader(props) {
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [fileName, setFileName] = useState(null);
+  const [errFileName, setErrFileName] = useState(null);
   const [file, setFile] = useState(null);
 
   function handleChange(e) {
     const fname = e.target.files[0].name;
-    setFileName(fname);
+    const size = parseInt(e.target.files[0].size);
+    if (size < 1000000) {
+      setFileName(fname);
+    } else {
+      const errFname = "Allowed file size: < 1MB";
+      setErrFileName(errFname);
+    }
+
     setFile(e.target.files[0]);
   }
 
@@ -45,8 +53,11 @@ export default function FileUploader(props) {
         alert(res.data.errorMsg);
       } else {
         setOpenBackdrop(false);
-        alert(res.data.msg);
         setFileName(null);
+        setErrFileName(null);
+        if (!alert(res.data.msg)) {
+          window.location.reload();
+        }
       }
     } catch (error) {
       setOpenBackdrop(false);
@@ -80,11 +91,11 @@ export default function FileUploader(props) {
           <Typography
             sx={{ textAlign: "center" }}
             variant="caption"
-            color="green"
+            color={fileName ? "green" : "red"}
             display="block"
             gutterBottom
           >
-            {fileName}
+            {fileName ? fileName : errFileName}
           </Typography>
           <br />
         </FormGroup>
