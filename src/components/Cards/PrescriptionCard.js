@@ -20,7 +20,7 @@ export default function AppointmentCard(props) {
         </Typography>
         <br /> <br />
         <Fab
-          href={props.file_url}
+          href={`https://mhc-pms-server.herokuapp.com${props.file_url}`}
           download="my-prescription"
           color="primary"
           variant="extended"
