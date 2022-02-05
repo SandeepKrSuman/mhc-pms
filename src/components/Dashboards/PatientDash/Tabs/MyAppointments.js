@@ -30,8 +30,7 @@ function MyAppointments() {
           const appoints = res.data.filter(
             (appoint) => appoint.pemail === ptemail
           );
-          appoints = appoints.reverse();
-          setAppointments(appoints);
+          setAppointments(appoints.reverse());
           setDefMsg(
             appoints.length === 0 &&
               "**You have not booked any appointment yet.**"
