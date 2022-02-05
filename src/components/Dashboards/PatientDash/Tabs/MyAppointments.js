@@ -30,6 +30,7 @@ function MyAppointments() {
           const appoints = res.data.filter(
             (appoint) => appoint.pemail === ptemail
           );
+          appoints = appoints.reverse();
           setAppointments(appoints);
           setDefMsg(
             appoints.length === 0 &&
