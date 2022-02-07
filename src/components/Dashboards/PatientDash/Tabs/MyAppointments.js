@@ -8,14 +8,17 @@ import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import IconButton from "@mui/material/IconButton";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import Tooltip from "@mui/material/Tooltip";
 import jwt from "jsonwebtoken";
 import api from "../../../../api";
 
 function MyAppointments() {
+  const [allAppoints, setAllAppoints] = useState([]);
   const [appointments, setAppointments] = useState([]);
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [defMsg, setDefMsg] = useState("");
+  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
     async function fetchAppointments() {
@@ -34,6 +37,7 @@ function MyAppointments() {
             (appoint) => appoint.pemail === ptemail
           );
           setAppointments(appoints.reverse());
+          setAllAppoints(appoints);
           setDefMsg(
             appoints.length === 0 &&
               "**You have not booked any appointment yet.**"
@@ -58,10 +62,16 @@ function MyAppointments() {
   };
 
   const hideCompleted = () => {
-    const upcoming = appointments.filter(
+    const upcoming = allAppoints.filter(
       (appointmnt) => !dateInPast(appointmnt.doa)
     );
     setAppointments(upcoming);
+    setHidden(true);
+  };
+
+  const showAll = () => {
+    setAppointments(allAppoints);
+    setHidden(false);
   };
 
   if (appointments.length > 0) {
@@ -69,15 +79,27 @@ function MyAppointments() {
       <Fragment>
         <DashBar />
         <Container className="dash-container" maxWidth="md">
-          <Tooltip title="Hide Completed">
-            <IconButton
-              sx={{ color: "grey" }}
-              aria-label="hide completed"
-              onClick={hideCompleted}
-            >
-              <VisibilityOffIcon />
-            </IconButton>
-          </Tooltip>
+          {!hidden ? (
+            <Tooltip title="Hide Completed">
+              <IconButton
+                sx={{ color: "grey" }}
+                aria-label="hide completed"
+                onClick={hideCompleted}
+              >
+                <VisibilityOffIcon />
+              </IconButton>
+            </Tooltip>
+          ) : (
+            <Tooltip title="Show All">
+              <IconButton
+                sx={{ color: "grey" }}
+                aria-label="hide completed"
+                onClick={showAll}
+              >
+                <VisibilityIcon />
+              </IconButton>
+            </Tooltip>
+          )}
           <br /> <br />
           <Grid container spacing={3}>
             {appointments.map((appointment, index) => {
