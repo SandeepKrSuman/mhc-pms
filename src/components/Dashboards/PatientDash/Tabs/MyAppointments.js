@@ -6,6 +6,9 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+import IconButton from "@mui/material/IconButton";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import Tooltip from "@mui/material/Tooltip";
 import jwt from "jsonwebtoken";
 import api from "../../../../api";
 
@@ -45,11 +48,37 @@ function MyAppointments() {
     fetchAppointments();
   }, []);
 
+  const dateInPast = (fd) => {
+    const firstDate = new Date(parseInt(fd));
+    const secondDate = new Date();
+    if (firstDate.setHours(0, 0, 0, 0) <= secondDate.setHours(0, 0, 0, 0)) {
+      return true;
+    }
+    return false;
+  };
+
+  const hideCompleted = () => {
+    const upcoming = appointments.filter(
+      (appointmnt) => !dateInPast(appointmnt.doa)
+    );
+    setAppointments(upcoming);
+  };
+
   if (appointments.length > 0) {
     return (
       <Fragment>
         <DashBar />
         <Container className="dash-container" maxWidth="md">
+          <Tooltip title="Hide Completed">
+            <IconButton
+              sx={{ color: "grey" }}
+              aria-label="hide completed"
+              onClick={hideCompleted}
+            >
+              <VisibilityOffIcon />
+            </IconButton>
+          </Tooltip>
+          <br /> <br />
           <Grid container spacing={3}>
             {appointments.map((appointment, index) => {
               return (
