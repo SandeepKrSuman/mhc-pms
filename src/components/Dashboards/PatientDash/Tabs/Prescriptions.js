@@ -28,7 +28,7 @@ function Prescriptions() {
         } else {
           setOpenBackdrop(false);
           const prescs = res.data.filter((presc) => presc.pemail === ptemail);
-          setPrs(prescs);
+          setPrs(prescs.reverse());
           setDefMsg(
             prescs.length === 0 && "**You have not been prescribed yet.**"
           );
