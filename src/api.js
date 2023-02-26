@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "https://mhc-pms-server.up.railway.app/api";
+const baseUrl = `${process.env.REACT_APP_BASE}/api`;
 
 axios.interceptors.request.use(
   (config) => {
