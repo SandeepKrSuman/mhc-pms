@@ -8,6 +8,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import API from "../../../api";
 import DashBar from "../../../components/DashBar/DashBar";
 import PrescriptionCard from "../../../components/Cards/PrescriptionCard";
+import { message } from "antd";
 
 
 function Prescriptions() {
@@ -25,7 +26,7 @@ function Prescriptions() {
         const res = await API.prescriptions();
         if (res.data.error) {
           setOpenBackdrop(false);
-          alert(res.data.errorMsg);
+          message.error(res.data.errorMsg);
         } else {
           setOpenBackdrop(false);
           const prescs = res.data.filter((presc) => presc.pemail === ptemail);
@@ -36,7 +37,7 @@ function Prescriptions() {
         }
       } catch (error) {
         setOpenBackdrop(false);
-        alert(error.response.data.errorMsg);
+        message.error(error.response.data.errorMsg);
         console.log(error);
       }
     }

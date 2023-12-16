@@ -8,6 +8,7 @@ import API from "../../../api";
 import Typography from "@mui/material/Typography";
 import ViewFeedbackCard from "../../../components/Cards/ViewFeedbackCard";
 import DashBar from "../../../components/DashBar/DashBar";
+import { message } from "antd";
 
 function Feedbacks() {
   const [openBackdrop, setOpenBackdrop] = useState(false);
@@ -21,7 +22,7 @@ function Feedbacks() {
         const res = await API.patientFeedbacks();
         if (res.data.error) {
           setOpenBackdrop(false);
-          alert(res.data.errorMsg);
+          message.error(res.data.errorMsg);
         } else {
           setOpenBackdrop(false);
           setPf(res.data);
@@ -31,7 +32,7 @@ function Feedbacks() {
         }
       } catch (error) {
         setOpenBackdrop(false);
-        alert(error.response.data.errorMsg);
+        message.error(error.response.data.errorMsg);
         console.log(error);
       }
     }

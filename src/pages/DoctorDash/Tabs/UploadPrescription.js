@@ -8,6 +8,7 @@ import jwt from "jsonwebtoken";
 import DashBar from "../../../components/DashBar/DashBar";
 import UploadPrescriptionCard from "../../../components/Cards/UploadPrescriptionCard";
 import API from "../../../api";
+import { message } from "antd";
 
 function UploadPrescription() {
   const [openBackdrop, setOpenBackdrop] = useState(false);
@@ -24,7 +25,7 @@ function UploadPrescription() {
         const res = await API.myAppointments();
         if (res.data.error) {
           setOpenBackdrop(false);
-          alert(res.data.errorMsg);
+          message.error(res.data.errorMsg);
         } else {
           setOpenBackdrop(false);
           const appoints = res.data.filter(
@@ -38,7 +39,7 @@ function UploadPrescription() {
         }
       } catch (error) {
         setOpenBackdrop(false);
-        alert(error.response.data.errorMsg);
+        message.error(error.response.data.errorMsg);
         console.log(error);
       }
     }

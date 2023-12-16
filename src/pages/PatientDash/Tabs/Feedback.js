@@ -8,6 +8,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import API from "../../../api";
 import DashBar from "../../../components/DashBar/DashBar";
 import FeedbackCard from "../../../components/Cards/FeedbackCard";
+import { message } from "antd";
 
 function Feedback() {
   const [openBackdrop, setOpenBackdrop] = useState(false);
@@ -31,7 +32,7 @@ function Feedback() {
         const res = await API.myAppointments();
         if (res.data.error) {
           setOpenBackdrop(false);
-          alert(res.data.errorMsg);
+          message.error(res.data.errorMsg);
         } else {
           setOpenBackdrop(false);
           const appoints = res.data.filter(
@@ -47,7 +48,7 @@ function Feedback() {
         }
       } catch (error) {
         setOpenBackdrop(false);
-        alert(error.response.data.errorMsg);
+        message.error(error.response.data.errorMsg);
         console.log(error);
       }
     }

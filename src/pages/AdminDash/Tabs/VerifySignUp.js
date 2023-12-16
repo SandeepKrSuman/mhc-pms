@@ -6,6 +6,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import DashBar from "../../../components/DashBar/DashBar";
 import VerifyCard from "../../../components/Cards/VerifyCard";
 import API from "../../../api"
+import { message } from "antd";
 
 
 
@@ -20,14 +21,14 @@ function VerifySignUp() {
         const res = await API.unverified();
         if (res.data.error) {
           setOpenBackdrop(false);
-          alert(res.data.error);
+          message.error(res.data.error);
         } else {
           setOpenBackdrop(false);
           setUnvUsers(res.data);
         }
       } catch (error) {
         setOpenBackdrop(false);
-        alert(error.response.data.errorMsg);
+        message.error(error.response.data.errorMsg);
         console.log(error);
       }
     }

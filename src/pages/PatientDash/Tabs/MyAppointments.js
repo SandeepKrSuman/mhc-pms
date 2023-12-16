@@ -12,6 +12,7 @@ import jwt from "jsonwebtoken";
 import API from "../../../api";
 import DashBar from "../../../components/DashBar/DashBar";
 import AppointmentCard from "../../../components/Cards/AppointmentCard";
+import { message } from "antd";
 
 
 function MyAppointments() {
@@ -31,7 +32,7 @@ function MyAppointments() {
         const res = await API.myAppointments();
         if (res.data.error) {
           setOpenBackdrop(false);
-          alert(res.data.errorMsg);
+          message.error(res.data.errorMsg);
         } else {
           setOpenBackdrop(false);
           const appoints = res.data.filter(
@@ -46,7 +47,7 @@ function MyAppointments() {
         }
       } catch (error) {
         setOpenBackdrop(false);
-        alert(error.response.data.errorMsg);
+        message.error(error.response.data.errorMsg);
         console.log(error);
       }
     }

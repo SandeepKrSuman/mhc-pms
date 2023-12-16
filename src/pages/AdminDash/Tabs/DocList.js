@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import DashBar from "../../../components/DashBar/DashBar";
 import DocListCard from "../../../components/Cards/DocListCard";
 import API from "../../../api";
+import { message } from "antd";
 
 function DocList() {
   const [openBackdrop, setOpenBackdrop] = useState(false);
@@ -21,14 +22,14 @@ function DocList() {
         const res = await API.docList();
         if (res.data.error) {
           setOpenBackdrop(false);
-          alert(res.data.errorMsg);
+          message.error(res.data.errorMsg);
         } else {
           setOpenBackdrop(false);
           setDocs(res.data)
         }
       } catch (error) {
         setOpenBackdrop(false);
-        alert(error.response.data.errorMsg);
+        message.error(error.response.data.errorMsg);
         console.log(error);
       }
     }

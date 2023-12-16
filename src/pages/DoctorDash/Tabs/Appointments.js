@@ -8,6 +8,7 @@ import jwt from "jsonwebtoken";
 import API from "../../../api";
 import DashBar from "../../../components/DashBar/DashBar";
 import DocAppointmentCard from "../../../components/Cards/DocAppointmentCard";
+import { message } from "antd";
 
 function Appointments() {
   const [openBackdrop, setOpenBackdrop] = useState(false);
@@ -24,7 +25,7 @@ function Appointments() {
         const res = await API.myAppointments();
         if (res.data.error) {
           setOpenBackdrop(false);
-          alert(res.data.errorMsg);
+          message.error(res.data.errorMsg);
         } else {
           setOpenBackdrop(false);
           const appoints = res.data.filter(
@@ -35,7 +36,7 @@ function Appointments() {
         }
       } catch (error) {
         setOpenBackdrop(false);
-        alert(error.response.data.errorMsg);
+        message.error(error.response.data.errorMsg);
         console.log(error);
       }
     }

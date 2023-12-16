@@ -14,6 +14,7 @@ import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
 import API from "../../api";
+import { message } from "antd";
 
 export default function DashBar() {
   const [openBackdrop, setOpenBackdrop] = useState(false);
@@ -37,7 +38,7 @@ export default function DashBar() {
     } catch (error) {
       setOpenBackdrop(false);
       console.error(error);
-      alert(error.response.data.error);
+      message.error(error.response.data.error);
     }
   }
 

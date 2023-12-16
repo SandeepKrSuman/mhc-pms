@@ -8,6 +8,7 @@ import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import API from "../../../api";
+import { message } from "antd";
 
 function UpiPay() {
   const navigate = useNavigate();
@@ -25,15 +26,15 @@ function UpiPay() {
       const res = await API.makePayment({ pemail, demail, doa });
       if (res.data.error) {
         setOpenBackdrop(false);
-        alert(res.data.errorMsg);
+        message.error(res.data.errorMsg);
       } else {
         setOpenBackdrop(false);
-        alert(res.data.msg);
+        message.error(res.data.msg);
         setConfirm(true);
       }
     } catch (error) {
       setOpenBackdrop(false);
-      alert(error.response.data.errorMsg);
+      message.error(error.response.data.errorMsg);
       console.error(error);
     }
   }

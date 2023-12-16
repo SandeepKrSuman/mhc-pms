@@ -12,6 +12,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import API from "../../api";
+import { message } from "antd";
 
 export default function FeedbackCard(props) {
   const [openBackdrop, setOpenBackdrop] = useState(false);
@@ -36,15 +37,15 @@ export default function FeedbackCard(props) {
       });
       if (res.data.error) {
         setOpenBackdrop(false);
-        alert(res.data.errorMsg);
+        message.error(res.data.errorMsg);
       } else {
         setOpenBackdrop(false);
         setSubmit(true);
-        alert(res.data.msg);
+        message.error(res.data.msg);
       }
     } catch (error) {
       setOpenBackdrop(false);
-      alert(error.response.data.errorMsg);
+      message.error(error.response.data.errorMsg);
       console.log(error);
     }
   }
@@ -61,17 +62,17 @@ export default function FeedbackCard(props) {
       });
       if (res.data.error) {
         setOpenBackdrop(false);
-        alert(res.data.errorMsg);
+        message.error(res.data.errorMsg);
       } else {
         setOpenBackdrop(false);
         setFeedbackText("");
         setValue(0);
         setSubmit(false);
-        alert(res.data.msg);
+        message.error(res.data.msg);
       }
     } catch (error) {
       setOpenBackdrop(false);
-      alert(error.response.data.errorMsg);
+      message.error(error.response.data.errorMsg);
       console.log(error);
     }
   }

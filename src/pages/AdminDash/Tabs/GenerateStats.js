@@ -9,6 +9,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import API from "../../../api";
 import DashBar from "../../../components/DashBar/DashBar";
 import StatsCard from "../../../components/Cards/StatsCard";
+import { message } from "antd";
 
 function GenerateStats() {
   const [openBackdrop, setOpenBackdrop] = useState(false);
@@ -25,7 +26,7 @@ function GenerateStats() {
         const res = await API.generateStats();
         if (res.data.error) {
           setOpenBackdrop(false);
-          alert(res.data.errorMsg);
+          message.error(res.data.errorMsg);
         } else {
           setOpenBackdrop(false);
           setMrd(res.data.mrd);
@@ -36,7 +37,7 @@ function GenerateStats() {
         }
       } catch (error) {
         setOpenBackdrop(false);
-        alert(error.response.data.errorMsg);
+        message.error(error.response.data.errorMsg);
         console.log(error);
       }
     }
