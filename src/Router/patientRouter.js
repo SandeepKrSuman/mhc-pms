@@ -1,14 +1,16 @@
-import PatientDash from '../components/Dashboards/PatientDash/PatientDash';
-import BookAppointment from '../components/Dashboards/PatientDash/Tabs/BookAppointment';
-import CardPaymentPatient from '../components/Dashboards/PatientDash/Tabs/CardPayment';
-import Feedback from '../components/Dashboards/PatientDash/Tabs/Feedback';
-import MakePaymentPatinet from '../components/Dashboards/PatientDash/Tabs/MakePayment';
-import MyAppointments from '../components/Dashboards/PatientDash/Tabs/MyAppointments';
-import Prescriptions from '../components/Dashboards/PatientDash/Tabs/Prescriptions';
-import UpiPaymentPatient from '../components/Dashboards/PatientDash/Tabs/UpiPayment';
-import ViewLocation from '../components/Dashboards/PatientDash/Tabs/ViewLocation';
+import { AuthContext } from '.';
 
-const patientRouter = [
+import BookAppointment from '../pages/PatientDash/Tabs/BookAppointment';
+import CardPaymentPatient from '../pages/PatientDash/Tabs/CardPayment';
+import Feedback from '../pages/PatientDash/Tabs/Feedback';
+import MakePaymentPatinet from '../pages/PatientDash/Tabs/MakePayment';
+import MyAppointments from '../pages/PatientDash/Tabs/MyAppointments';
+import Prescriptions from '../pages/PatientDash/Tabs/Prescriptions';
+import UpiPaymentPatient from '../pages/PatientDash/Tabs/UpiPayment';
+import ViewLocation from '../pages/PatientDash/Tabs/ViewLocation';
+import PatientDash from '../pages/PatientDash';
+
+const patientRouter = (setUserType) => [
     {
         path: '/dashboard/patient',
         element: <AuthContext.Provider value={{ setUserType }}>

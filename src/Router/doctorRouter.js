@@ -1,8 +1,10 @@
-import DoctorDash from '../components/Dashboards/DoctorDash/DoctorDash';
-import Appointments from '../components/Dashboards/DoctorDash/Tabs/Appointments';
-import UploadPrescription from '../components/Dashboards/DoctorDash/Tabs/UploadPrescription';
+import { AuthContext } from '.';
 
-const doctorRouter = [
+import Appointments from '../pages/DoctorDash/Tabs/Appointments';
+import UploadPrescription from '../pages/DoctorDash/Tabs/UploadPrescription';
+import DoctorDash from '../pages/DoctorDash/DoctorDash';
+
+const doctorRouter = (setUserType) => [
     {
         path: '/dashboard/doctor',
         element: <AuthContext.Provider value={{ setUserType }}>

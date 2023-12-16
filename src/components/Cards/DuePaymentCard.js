@@ -9,9 +9,9 @@ import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate, createSearchParams } from "react-router-dom";
-import api from "../../api";
+import API from "../../api";
 
-export default function AppointmentCard(props) {
+export default function DuePaymentCard(props) {
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const navigate = useNavigate();
   function handlePayNow() {
@@ -28,7 +28,7 @@ export default function AppointmentCard(props) {
   async function handleCancel() {
     setOpenBackdrop(true);
     try {
-      const res = await api.cancelAppointment({
+      const res = await API.cancelAppointment({
         data: { pemail: props.pemail, demail: props.demail, doa: props.doa },
       });
       if (res.data.error) {

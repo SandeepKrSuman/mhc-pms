@@ -2,6 +2,13 @@ import axios from "axios";
 
 const baseUrl = `${process.env.REACT_APP_BASE}/api`;
 
+const axiosInstance = axios.create({
+    // baseURL: 'https://medal.onrender.com/api',
+    baseURL: baseUrl,
+    // timeout: 6000,
+});
+
+
 axios.interceptors.request.use(
     (config) => {
         const accessToken = localStorage.getItem("accessToken");

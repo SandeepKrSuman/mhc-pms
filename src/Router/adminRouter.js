@@ -1,12 +1,14 @@
-import AdminDash from '../components/Dashboards/AdminDash/AdminDash';
-import DocList from '../components/Dashboards/AdminDash/Tabs/DocList';
-import AddNew from '../components/Dashboards/AdminDash/Tabs/AddNew';
-import GenerateStats from '../components/Dashboards/AdminDash/Tabs/GenerateStats';
-import VerifySignUp from '../components/Dashboards/AdminDash/Tabs/VerifySignUp';
-import Feedbacks from '../components/Dashboards/AdminDash/Tabs/Feedbacks';
+
+import { AuthContext } from '.';
+import DocList from '../pages/AdminDash/Tabs/DocList';
+import AddNew from '../pages/AdminDash/Tabs/AddNew';
+import GenerateStats from '../pages/AdminDash/Tabs/GenerateStats';
+import Feedbacks from '../pages/AdminDash/Tabs/Feedbacks';
+import VerifySignUp from '../pages/AdminDash/Tabs/VerifySignUp';
+import AdminDash from '../pages/AdminDash';
 
 
-const adminRouter = [
+const adminRouter = (setUserType) => [
     {
         path: '/dashboard/admin',
         element: <AuthContext.Provider value={{ setUserType }}>

@@ -6,7 +6,7 @@ import FormGroup from "@mui/material/FormGroup";
 import Typography from "@mui/material/Typography";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import api from "../../api";
+import API from "../../api";
 
 const Input = styled("input")({
   display: "none",
@@ -47,7 +47,7 @@ export default function FileUploader(props) {
     formData.append("doa", props.doa);
     formData.append("prescriptionFile", file);
     try {
-      const res = await api.uploadPrescription(formData);
+      const res = await API.uploadPrescription(formData);
       if (res.data.error) {
         setOpenBackdrop(false);
         alert(res.data.errorMsg);

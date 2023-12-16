@@ -10,7 +10,8 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import api from "../../api";
+import API from "../../api";
+
 
 const styles = {
   backgroundColor: "#FF5403",
@@ -42,7 +43,7 @@ export default function DocListCard(props) {
   async function handleDone() {
     setOpenBackdrop(true);
     try {
-      const res = await api.updateFee({ docName: props.heading, fee: newFee });
+      const res = await API.updateFee({ docName: props.heading, fee: newFee });
       if (res.data.error) {
         setOpenBackdrop(false);
         alert(res.data.errorMsg);

@@ -3,7 +3,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import StarRateIcon from "@mui/icons-material/StarRate";
 
-export default function AppointmentCard(props) {
+export default function StatsCard(props) {
   return (
     <Card sx={{ maxWidth: "100%", textAlign: "center" }} variant="outlined">
       <CardContent>

@@ -1,12 +1,14 @@
-import StaffDash from '../components/Dashboards/StaffDash/StaffDash';
-import BookAppointmentStaff from '../components/Dashboards/StaffDash/Tabs/BookAppointment';
-import CancelAppointment from '../components/Dashboards/StaffDash/Tabs/CancelAppointment';
-import CardPaymentStaff from '../components/Dashboards/StaffDash/Tabs/CardPayment';
-import CashPayment from '../components/Dashboards/StaffDash/Tabs/CashPayment';
-import MakePaymentStaff from '../components/Dashboards/StaffDash/Tabs/MakePayment';
-import UpiPaymentStaff from '../components/Dashboards/StaffDash/Tabs/UpiPayment';
+import { AuthContext } from '.';
 
-const staffRouter = [
+import BookAppointmentStaff from '../pages/StaffDash/Tabs/BookAppointment';
+import CancelAppointment from '../pages/StaffDash/Tabs/CancelAppointment';
+import CardPaymentStaff from '../pages/StaffDash/Tabs/CardPayment';
+import CashPayment from '../pages/StaffDash/Tabs/CashPayment';
+import MakePaymentStaff from '../pages/StaffDash/Tabs/MakePayment';
+import UpiPaymentStaff from '../pages/StaffDash/Tabs/UpiPayment';
+import StaffDash from '../pages/StaffDash/StaffDash';
+
+const staffRouter = (setUserType) => [
     {
         path: '/dashboard/staff',
         element: <AuthContext.Provider value={{ setUserType }}>

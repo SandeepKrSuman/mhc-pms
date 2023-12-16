@@ -11,7 +11,7 @@ import Fab from "@mui/material/Fab";
 import Tooltip from "@mui/material/Tooltip";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import api from "../../api";
+import API from "../../api";
 
 export default function FeedbackCard(props) {
   const [openBackdrop, setOpenBackdrop] = useState(false);
@@ -27,7 +27,7 @@ export default function FeedbackCard(props) {
   async function handleSubmit() {
     setOpenBackdrop(true);
     try {
-      const res = await api.writeFeedback({
+      const res = await API.writeFeedback({
         pemail: props.pemail,
         demail: props.demail,
         doa: props.doa,
@@ -52,7 +52,7 @@ export default function FeedbackCard(props) {
   async function handleDelete() {
     setOpenBackdrop(true);
     try {
-      const res = await api.deleteFeedback({
+      const res = await API.deleteFeedback({
         pemail: props.pemail,
         demail: props.demail,
         doa: props.doa,

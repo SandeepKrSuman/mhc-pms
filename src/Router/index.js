@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import jwt from "jsonwebtoken";
-import HomePage from '../components/HomePage/HomePage';
-import SignIn from '../components/SignIn/SignIn';
-import SignUp from '../components/SignUp/SignUp';
-import AdminDash from '../components/Dashboards/AdminDash/AdminDash';
-import DocList from '../components/Dashboards/AdminDash/Tabs/DocList';
-import AddNew from '../components/Dashboards/AdminDash/Tabs/AddNew';
-import GenerateStats from '../components/Dashboards/AdminDash/Tabs/GenerateStats';
-import VerifySignUp from '../components/Dashboards/AdminDash/Tabs/VerifySignUp';
-import Feedbacks from '../components/Dashboards/AdminDash/Tabs/Feedbacks';
+import HomePage from '../pages/HomePage/HomePage';
+import SignIn from '../pages/SignIn/SignIn';
+import SignUp from '../pages/SignUp/SignUp';
 import adminRouter from './adminRouter';
 import doctorRouter from './doctorRouter';
 import staffRouter from './staffRouter';
+import patientRouter from './patientRouter';
+import Page404 from '../pages/Page404/Page404';
 
 export const AuthContext = React.createContext();
 
@@ -26,8 +22,6 @@ export default function MyRouter() {
         const userTyp = payload && payload.userType;
         setUserType(userTyp && userTyp);
     }, []);
-
-
 
     const router = createBrowserRouter([
         {
@@ -48,15 +42,15 @@ export default function MyRouter() {
             path: '/signup',
             element: userType ? <Navigate to={`/dashboard/${userType}`} /> : <SignUp />
         },
-        userType === "admin" && { ...adminRouter },
-        userType === "doctor" && { ...doctorRouter },
-        userType === "staff" && { ...staffRouter },
+        userType === "admin" && { ...adminRouter(setUserType) },
+        userType === "doctor" && { ...doctorRouter(setUserType) },
+        userType === "patient" && { ...patientRouter(setUserType) },
+        userType === "staff" && { ...staffRouter(setUserType) },
         {
             path: '*',
             element: <AuthContext.Provider value={{ userType }}>
                 <Page404 />
             </AuthContext.Provider>,
-            // loader: async ({ params }) => await getonetutorial(params.tutorialID)
         },
     ])
     return (

@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { useNavigate, useLocation, createSearchParams } from "react-router-dom";
 import "./DashCard.css";
-import { PaymentContext } from "../Dashboards/PatientDash/Tabs/MakePayment";
+import { PaymentContext } from "../../pages/PatientDash/Tabs/MakePayment";
 import { StaffPaymentContext } from "../Dashboards/StaffDash/Tabs/MakePayment";
 
 export default function DashCard(props) {

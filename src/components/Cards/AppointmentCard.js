@@ -7,14 +7,14 @@ import Button from "@mui/material/Button";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import api from "../../api";
+import API from "../../api";
 
 export default function AppointmentCard(props) {
   const [openBackdrop, setOpenBackdrop] = useState(false);
   async function handleCancel() {
     setOpenBackdrop(true);
     try {
-      const res = await api.cancelAppointment({
+      const res = await API.cancelAppointment({
         data: { pemail: props.pemail, demail: props.demail, doa: props.doa },
       });
       if (res.data.error) {

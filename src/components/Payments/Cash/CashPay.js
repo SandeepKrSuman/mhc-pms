@@ -7,7 +7,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import api from "../../../api";
+import API from "../../../api";
 
 function CashPay() {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ function CashPay() {
   async function handleConfirm() {
     setOpenBackdrop(true);
     try {
-      const res = await api.makePayment({ pemail, demail, doa });
+      const res = await API.makePayment({ pemail, demail, doa });
       if (res.data.error) {
         setOpenBackdrop(false);
         alert(res.data.errorMsg);
