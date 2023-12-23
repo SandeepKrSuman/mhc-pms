@@ -1,5 +1,7 @@
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import Link from "@mui/material/Link";
 import { Fragment } from "react";
 import DashBar from "../../../DashBar/DashBar";
 
@@ -14,6 +16,16 @@ function ViewLocation() {
         <Fragment>
             <DashBar />
             <Container maxWidth="lg" style={customStyle}>
+                <Breadcrumbs aria-label="breadcrumb">
+                    <Link
+                        underline="hover"
+                        color="inherit"
+                        href="/dashboard/patient"
+                    >
+                        Dashboard
+                    </Link>
+                    <Typography color="text.primary">View Location</Typography>
+                </Breadcrumbs>
                 <Typography variant="caption" gutterBottom component="div">
                     **The location is for demo purpose only.**
                 </Typography>
