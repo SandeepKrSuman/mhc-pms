@@ -8,8 +8,10 @@ import AddTaskIcon from "@mui/icons-material/AddTask";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate, createSearchParams } from "react-router-dom";
-import api from "../../api";
+
 import jwt from "jsonwebtoken";
+import API from "../../api";
+import { message } from "antd";
 
 export default function BookingCard(props) {
   const [openBackdrop, setOpenBackdrop] = useState(false);
@@ -26,7 +28,7 @@ export default function BookingCard(props) {
     if (props.linkto === "staff") {
       setOpenBackdrop(false);
       if (!validateEmail(props.ptemail)) {
-        alert("Enter a valid email");
+        message.error("Enter a valid email");
         return;
       }
     }
@@ -63,10 +65,10 @@ export default function BookingCard(props) {
       doa: Date.parse(props.date),
     };
     try {
-      const res = await api.bookAppointment(postData);
+      const res = await API.bookAppointment(postData);
       if (res.data.error) {
         setOpenBackdrop(false);
-        alert(res.data.errorMsg);
+        message.error(res.data.errorMsg);
       } else {
         setOpenBackdrop(false);
         navigate({
@@ -80,7 +82,7 @@ export default function BookingCard(props) {
       }
     } catch (error) {
       setOpenBackdrop(false);
-      alert(error.response.data.errorMsg);
+      message.error(error.response.data.errorMsg);
       console.log(error);
     }
   }

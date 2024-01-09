@@ -10,7 +10,8 @@ import Tooltip from "@mui/material/Tooltip";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate, createSearchParams } from "react-router-dom";
-import api from "../../api";
+import API from "../../api";
+import { message } from "antd";
 
 const styleVerify = {
   backgroundColor: "#64dd17",
@@ -38,10 +39,10 @@ export default function VerifyCard(props) {
   async function handleVerify() {
     setOpenBackdrop(true);
     try {
-      const res = await api.verify({ email: props.subheading });
+      const res = await API.verify({ email: props.subheading });
       if (res.data.error) {
         setOpenBackdrop(false);
-        alert(res.data.errorMsg);
+        message.error(res.data.errorMsg);
       } else {
         setOpenBackdrop(false);
         if (props.unvuser === "doctor") {
@@ -54,14 +55,14 @@ export default function VerifyCard(props) {
             })}`,
           });
         } else {
-          if (!alert(res.data.msg)) {
+          if (!message.error(res.data.msg)) {
             window.location.reload();
           }
         }
       }
     } catch (error) {
       setOpenBackdrop(false);
-      alert(error.response.data.errorMsg);
+      message.error(error.response.data.errorMsg);
       console.log(error);
     }
   }
@@ -69,19 +70,19 @@ export default function VerifyCard(props) {
   async function handleReject() {
     setOpenBackdrop(true);
     try {
-      const res = await api.reject({ data: { email: props.subheading } });
+      const res = await API.reject({ data: { email: props.subheading } });
       if (res.data.error) {
         setOpenBackdrop(false);
-        alert(res.data.errorMsg);
+        message.error(res.data.errorMsg);
       } else {
         setOpenBackdrop(false);
-        if (!alert(res.data.msg)) {
+        if (!message.error(res.data.msg)) {
           window.location.reload();
         }
       }
     } catch (error) {
       setOpenBackdrop(false);
-      alert(error.response.data.errorMsg);
+      message.error(error.response.data.errorMsg);
       console.log(error);
     }
   }

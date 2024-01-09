@@ -6,7 +6,8 @@ import FormGroup from "@mui/material/FormGroup";
 import Typography from "@mui/material/Typography";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import api from "../../api";
+import API from "../../api";
+import { message } from "antd";
 
 const Input = styled("input")({
   display: "none",
@@ -47,21 +48,21 @@ export default function FileUploader(props) {
     formData.append("doa", props.doa);
     formData.append("prescriptionFile", file);
     try {
-      const res = await api.uploadPrescription(formData);
+      const res = await API.uploadPrescription(formData);
       if (res.data.error) {
         setOpenBackdrop(false);
-        alert(res.data.errorMsg);
+        message.error(res.data.errorMsg);
       } else {
         setOpenBackdrop(false);
         setFileName(null);
         setErrFileName(null);
-        if (!alert(res.data.msg)) {
+        if (!message.error(res.data.msg)) {
           window.location.reload();
         }
       }
     } catch (error) {
       setOpenBackdrop(false);
-      alert(error.response.data.errorMsg);
+      message.error(error.response.data.errorMsg);
       console.log(error);
     }
   }

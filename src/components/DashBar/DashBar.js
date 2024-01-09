@@ -1,5 +1,5 @@
 import { useContext, useState, Fragment } from "react";
-import { AuthContext } from "../../App";
+import { AuthContext } from "../../Router";
 import jwt from "jsonwebtoken";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -13,7 +13,8 @@ import { red } from "@mui/material/colors";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
-import api from "../../api";
+import API from "../../api";
+import { message } from "antd";
 
 export default function DashBar() {
   const [openBackdrop, setOpenBackdrop] = useState(false);
@@ -30,14 +31,14 @@ export default function DashBar() {
       const refreshToken = localStorage.getItem("refreshToken");
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
-      await api.logout({ data: { refreshToken } });
+      await API.logout({ data: { refreshToken } });
       setOpenBackdrop(false);
       auth.setUserType(null);
       navigate("/");
     } catch (error) {
       setOpenBackdrop(false);
       console.error(error);
-      alert(error.response.data.error);
+      message.error(error.response.data.error);
     }
   }
 

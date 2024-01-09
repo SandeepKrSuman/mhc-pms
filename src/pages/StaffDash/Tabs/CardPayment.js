@@ -10,10 +10,9 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import API from "../../../api";
 import { message } from "antd";
 
-function UpiPay() {
-  const navigate = useNavigate();
+function CardPaymentStaff() {
   const [openBackdrop, setOpenBackdrop] = useState(false);
-
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const pemail = searchParams ? searchParams.get("pemail") : null;
   const demail = searchParams ? searchParams.get("demail") : null;
@@ -54,12 +53,12 @@ function UpiPay() {
           paddingBottom: "3%",
         }}
       >
-        <img alt="qr-code" src="/images/paymentQR.png" />
+        <img alt="credit-card" src="/images/credit-card.png" />
         <br /> <br />
         <Typography variant="body1" gutterBottom component="div">
           {confirm
             ? "Download the invoice."
-            : "Scan the above QR to pay appointment fee."}
+            : "Confirm upon successful card payment."}
         </Typography>
         <br /> <br />
         {confirm ? (
@@ -88,4 +87,4 @@ function UpiPay() {
   );
 }
 
-export default UpiPay;
+export default CardPaymentStaff;

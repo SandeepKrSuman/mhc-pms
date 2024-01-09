@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import Fab from "@mui/material/Fab";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 
-export default function AppointmentCard(props) {
+export default function PrescriptionCard(props) {
   return (
     <Card sx={{ maxWidth: "100%", textAlign: "center" }} variant="outlined">
       <CardContent>

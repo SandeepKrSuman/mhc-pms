@@ -10,7 +10,9 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import api from "../../api";
+import API from "../../api";
+import { message } from "antd";
+
 
 const styles = {
   backgroundColor: "#FF5403",
@@ -42,10 +44,10 @@ export default function DocListCard(props) {
   async function handleDone() {
     setOpenBackdrop(true);
     try {
-      const res = await api.updateFee({ docName: props.heading, fee: newFee });
+      const res = await API.updateFee({ docName: props.heading, fee: newFee });
       if (res.data.error) {
         setOpenBackdrop(false);
-        alert(res.data.errorMsg);
+        message.error(res.data.errorMsg);
       } else {
         setOpenBackdrop(false);
         setNewFee("");
@@ -53,7 +55,7 @@ export default function DocListCard(props) {
       }
     } catch (error) {
       setOpenBackdrop(false);
-      alert(error.response.data.errorMsg);
+      message.error(error.response.data.errorMsg);
       console.log(error);
     }
   }
